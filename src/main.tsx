@@ -6,8 +6,7 @@ import './index.css'
 
 // Smooth scroll is initialized once at startup, outside React's lifecycle,
 // so StrictMode double-mounting never creates duplicate instances.
-const lenis = initSmoothScroll()
-;(window as unknown as { __lenis: typeof lenis }).__lenis = lenis
+initSmoothScroll()
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
