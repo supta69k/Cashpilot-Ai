@@ -1,0 +1,114 @@
+import object from '../assets/icons/footer/object.png'
+import object1 from '../assets/icons/footer/object1.png'
+import line from '../assets/icons/footer/line.svg'
+import fb from '../assets/icons/footer/fb.svg'
+import twitter from '../assets/icons/footer/twitter.svg'
+import instagram from '../assets/icons/footer/instagram.svg'
+
+const PAGES = ['Features', 'Pricing', 'Affiliate Program', 'Press Kit']
+const REFERENCE = ['Features', 'Pricing', 'Affiliate Program', 'Press Kit']
+const UTILITIES = ['Features', 'Pricing', 'Affiliate Program', 'Press Kit']
+
+/** Footer — Figma 58:18143 at page (-101,9790), 1597×1280. */
+export default function Footer() {
+  return (
+    <footer className="relative w-full overflow-hidden bg-[#f7f6f4] pt-[197px]">
+      {/* Background angled image layer — Figma 14:8413. */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[76.9%] origin-bottom-left rotate-[7.83deg]">
+        <img src={object} alt="" className="absolute inset-0 h-[100.3%] w-full object-cover" />
+      </div>
+
+      {/* Footer container — Figma 14:8414 at (101,0), 1440×539. */}
+      <div className="relative mx-auto w-[1440px]">
+        <div className="mx-auto w-[1184px]">
+          {/* Top content row — Figma 14:8431. */}
+          <div className="flex items-start justify-between pt-[107.5px]">
+            {/* Brand + tagline — Figma 14:8454. */}
+            <div className="w-[301.48px]">
+              <div className="flex items-center gap-[9px]">
+                <div className="flex size-[32px] items-center justify-center overflow-hidden rounded-[9px] bg-[#cbfc58] px-[4px] py-[8px]">
+                  <img src={object1} alt="" className="h-[96.57%] w-[99.08%]" />
+                </div>
+                <span className="font-satoshi text-[23px] font-medium leading-none text-[#191c19]">
+                  CashPilot AI
+                </span>
+              </div>
+              <p className="mt-[42px] font-satoshi text-[16px] leading-[1.5] text-[#1e1a1c]">
+                In the new era of technology we look a in the future with certainty and pride to for
+                our company and.
+              </p>
+            </div>
+
+            {/* Three link columns — Figma 14:8432. */}
+            <div className="flex gap-[103.94px]">
+              {/* Pages */}
+              <div>
+                <p className="font-satoshi text-[16px] font-medium text-[#7e8083]">Pages</p>
+                <ul className="mt-[26px] flex flex-col gap-[20px] font-satoshi text-[16px] text-[#1e1a1c]">
+                  {PAGES.map((label) => (
+                    <li key={label}>
+                      <a href="#" className="hover:underline">
+                        {label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Reference Page */}
+              <div>
+                <p className="font-satoshi text-[16px] font-medium text-[#7e8083]">Reference Page</p>
+                <ul className="mt-[26px] flex flex-col gap-[20px] font-satoshi text-[16px] text-[#1e1a1c]">
+                  {REFERENCE.map((label) => (
+                    <li key={label}>
+                      <a href="#" className="hover:underline">
+                        {label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Utilities */}
+              <div>
+                <p className="font-satoshi text-[16px] font-medium text-[#7e8083]">Utilities</p>
+                <ul className="mt-[26px] flex flex-col gap-[20px] font-satoshi text-[16px] text-[#1e1a1c]">
+                  {UTILITIES.map((label) => (
+                    <li key={label}>
+                      <a href="#" className="hover:underline">
+                        {label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          {/* Divider line — Figma 14:8418. */}
+          <div className="mt-[67px] h-px w-full bg-[#d2d5d8]">
+            <img src={line} alt="" className="h-px w-full" />
+          </div>
+
+          {/* Bottom bar — Figma 14:8419. */}
+          <div className="flex items-center justify-between pb-[65px] pt-[24.5px] font-satoshi text-[14px] text-[#1e1a1c]">
+            <span>Copyright © 2026 CashPilot. All Rights Reserved</span>
+
+            {/* Social icons — Figma 14:8421. */}
+            <div className="flex items-center gap-[15px]">
+              <a href="#" aria-label="Facebook">
+                <img src={fb} alt="" className="size-[40px]" />
+              </a>
+              <a href="#" aria-label="Twitter">
+                <img src={twitter} alt="" className="size-[40px]" />
+              </a>
+              <a href="#" aria-label="Instagram">
+                <img src={instagram} alt="" className="size-[40px]" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  )
+}

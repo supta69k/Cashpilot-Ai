@@ -1,0 +1,41 @@
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@400&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-recoleta: "Recoleta", "Fraunces", "Georgia", serif;
+  --font-satoshi: "Satoshi", "Inter", "Segoe UI", system-ui, sans-serif;
+  --font-inter: "Inter", "Satoshi", system-ui, sans-serif;
+
+  --color-bg-page: #f7f6f4;
+  --color-accent: #cbfc58;
+  --color-accent-text: #191c19;
+  --color-dark-surface: #201e34;
+  --color-body: #fcfdfb;
+  --color-muted: #73776f;
+  --color-border: #e8eae3;
+  --color-positive: #87cd5a;
+  --color-positive-bg: rgba(83, 163, 72, 0.2);
+  --color-negative: #fd805f;
+  --color-negative-bg: rgba(217, 116, 84, 0.2);
+  --color-warning-bg: #fff8dd;
+  --color-warning-text: #9b6d1b;
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  background-color: var(--color-bg-page);
+  font-family: var(--font-satoshi);
+}
+
+::selection {
+  background: var(--color-accent);
+  color: #191c19;
+}

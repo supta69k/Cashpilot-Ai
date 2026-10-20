@@ -1,0 +1,20 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="518" height="158" viewBox="0 0 518 158" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Plot area" clip-path="url(#clip0_35_398)">
+<rect id="Grid line" width="518" height="1" fill="#E8EAE3"/>
+<rect id="Grid line_2" y="51.81" width="518" height="1" fill="#E8EAE3"/>
+<rect id="Grid line_3" y="103.62" width="518" height="1" fill="#E8EAE3"/>
+<rect id="Grid line_4" y="157" width="518" height="1" fill="#E8EAE3"/>
+<rect id="Reserve line" y="131.614" width="518" height="1" fill="#9B6D1B"/>
+<path id="Forecast area" d="M0 0L51.8 49.375L103.6 35.55L142.968 131.732L196.84 98.75L259 59.25L321.16 82.95L388.5 17.775L455.84 53.325L518 39.5V158H0V0Z" fill="url(#paint0_linear_35_398)"/>
+<path id="Projected cash balance" d="M0 0L51.8 59.2204L103.6 42.6387L142.968 158L196.84 118.441L259 71.0645L321.16 99.4902L388.5 21.3193L455.84 63.958L518 47.3763" stroke-width="2.5" stroke="#53A348"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear_35_398" x1="0" y1="0" x2="0" y2="158" gradientUnits="userSpaceOnUse">
+<stop stop-color="#A6D88B" stop-opacity="0.439216"/>
+<stop offset="1" stop-color="#A6D88B" stop-opacity="0.0196078"/>
+</linearGradient>
+<clipPath id="clip0_35_398">
+<rect width="518" height="158" fill="white"/>
+</clipPath>
+</defs>
+</svg>
