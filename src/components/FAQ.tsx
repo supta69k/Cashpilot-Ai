@@ -125,7 +125,7 @@ export default function FAQ() {
                   <img
                     src={elements}
                     alt=""
-                    className={`size-[36.84px] shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+                    className={`size-[20px] shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
                   />
                 </button>
 

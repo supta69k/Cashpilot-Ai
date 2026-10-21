@@ -14,7 +14,7 @@ export default function Footer() {
   return (
     <footer className="relative w-full overflow-hidden bg-[#f7f6f4] pt-[197px]">
       {/* Background angled image layer — Figma 14:8413. */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[76.9%] origin-bottom-left rotate-[7.83deg]">
+      <div className="pointer-events-none absolute inset-x-0 bottom-[-8%] h-[28%] origin-bottom-left rotate-[7.83deg]">
         <img src={object} alt="" className="absolute inset-0 h-[100.3%] w-full object-cover" />
       </div>
 

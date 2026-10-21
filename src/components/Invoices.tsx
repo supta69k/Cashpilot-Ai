@@ -5,6 +5,7 @@ import invoiceBg from '../assets/icons/sec6/invoice-bg.png'
 import donutBg from '../assets/icons/sec6/donut-bg.png'
 import searchIcon from '../assets/icons/sec6/search.svg'
 import arrowUp from '../assets/icons/sec6/arrow-up.svg'
+import donutRing from '../assets/icons/sec6/donut-ring.svg'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -16,19 +17,12 @@ const INVOICES = [
 
 const COLUMNS = ['Amount', 'Due date', 'Status', 'Follow-up']
 
-const QUOTE = '“Beware of little expenses; a small leak will sink a great ship.”'
-
-const RING_RADIUS = 108
-const RING_CIRCUMFERENCE = 2 * Math.PI * RING_RADIUS
-const RING_GREEN = (138 / 360) * RING_CIRCUMFERENCE
-const RING_GREY = (222 / 360) * RING_CIRCUMFERENCE
+const QUOTE = '”Beware of little expenses; a small leak will sink a great ship.”'
 
 /** Four-tile bento — Figma 52:18080 at page (108,5376), 1213×1046. */
 export default function Invoices() {
   const sectionRef = useRef<HTMLElement>(null)
   const totalRef = useRef<HTMLSpanElement>(null)
-  const greenRef = useRef<SVGCircleElement>(null)
-  const greyRef = useRef<SVGCircleElement>(null)
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -38,19 +32,8 @@ export default function Invoices() {
       gsap.set('[data-attr]', { autoAlpha: 0, y: 14 })
       gsap.set('[data-donut-copy]', { autoAlpha: 0, y: 16 })
       gsap.set('[data-badge]', { autoAlpha: 0, scale: 0.6 })
+      gsap.set('[data-donut-ring]', { autoAlpha: 0, scale: 0.85 })
       gsap.set('[data-donut-tail]', { autoAlpha: 0, y: 10 })
-
-      if (greenRef.current) {
-        gsap.set(greenRef.current, {
-          strokeDasharray: `0 ${RING_CIRCUMFERENCE}`,
-        })
-      }
-      if (greyRef.current) {
-        gsap.set(greyRef.current, {
-          strokeDasharray: `${RING_GREY} ${RING_CIRCUMFERENCE}`,
-          autoAlpha: 0,
-        })
-      }
 
       // Tiles rise in one after the other.
       gsap.to('[data-tile]', {
@@ -113,12 +96,7 @@ export default function Invoices() {
       })
 
       donutTl
-        .to(greyRef.current, { autoAlpha: 1, duration: 0.3 }, 0)
-        .to(
-          greenRef.current,
-          { strokeDasharray: `${RING_GREEN} ${RING_CIRCUMFERENCE}`, duration: 1.2, ease: 'power2.inOut' },
-          0.1,
-        )
+        .to('[data-donut-ring]', { autoAlpha: 1, scale: 1, duration: 1.2, ease: 'power2.out' }, 0)
         .to('[data-donut-copy]', { autoAlpha: 1, y: 0, duration: 0.7, ease: 'power3.out' }, 0.55)
         .to('[data-badge]', { autoAlpha: 1, scale: 1, duration: 0.5, ease: 'back.out(2.2)' }, 0.8)
         .to('[data-donut-tail]', { autoAlpha: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 0.95)
@@ -167,7 +145,7 @@ export default function Invoices() {
 
             {/* Invoice panel — Figma 14:8249, 470×335 centred. */}
             <div className="absolute left-1/2 top-1/2 h-[335px] w-[470px] -translate-x-1/2 -translate-y-1/2 overflow-clip rounded-[12px] bg-white">
-              <div className="absolute left-[26px] top-[22px] flex items-center gap-[95px]">
+              <div className="absolute left-[26px] top-[22px] flex items-center gap-[88px]">
                 <p className="w-[87px] font-recoleta text-[24px] leading-[1.5] text-[#191c19]">Invoices</p>
                 <div className="relative h-[38px] w-[251px] overflow-clip rounded-[7px] border border-[#e8eae3]">
                   <img src={searchIcon} alt="" className="absolute left-[9px] top-[9px] size-[15px]" />
@@ -298,35 +276,15 @@ export default function Invoices() {
 
             <div data-donut className="absolute left-[103px] top-[102px] h-[360px] w-[352px]">
               <div className="absolute inset-0 overflow-clip rounded-[24px] bg-white shadow-[inset_0px_-4px_0px_0px_rgba(0,0,0,0.15)]">
-                <svg
-                  viewBox="0 0 242 242"
+                <img
+                  data-donut-ring
+                  src={donutRing}
+                  alt=""
                   className="absolute left-[55px] top-[78px] size-[242px]"
                   aria-hidden
-                >
-                  <g fill="none" strokeWidth={13} strokeLinecap="round">
-                    <circle
-                      ref={greyRef}
-                      cx={121}
-                      cy={121}
-                      r={RING_RADIUS}
-                      stroke="#52525a"
-                      strokeOpacity={0.2}
-                      strokeDasharray={`${RING_GREY} ${RING_CIRCUMFERENCE}`}
-                      transform="rotate(284 121 121)"
-                    />
-                    <circle
-                      ref={greenRef}
-                      cx={121}
-                      cy={121}
-                      r={RING_RADIUS}
-                      stroke="#cbfc58"
-                      strokeDasharray={`${RING_GREEN} ${RING_CIRCUMFERENCE}`}
-                      transform="rotate(146 121 121)"
-                    />
-                  </g>
-                </svg>
+                />
 
-                <div className="absolute left-1/2 top-[130px] flex -translate-x-1/2 flex-col items-center gap-[6px]">
+                <div className="absolute left-1/2 top-[144px] flex -translate-x-1/2 flex-col items-center gap-[6px]">
                   <p
                     data-donut-copy
                     className="whitespace-nowrap font-satoshi text-[32px] font-medium leading-[1.4] tracking-[0.5px] text-[#0a0915]"
@@ -351,7 +309,7 @@ export default function Invoices() {
                 </div>
 
                 <p
-                  data-donut-tail
+                  data-donut-footer
                   className="absolute left-1/2 top-[286px] -translate-x-1/2 whitespace-nowrap font-satoshi text-[16px] leading-[1.7] tracking-[-0.4px] text-[#0a0915]"
                 >
                   increased 12% from last month

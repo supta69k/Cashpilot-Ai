@@ -96,14 +96,14 @@ export default function RiskCards() {
 
                 {/* Gradient label block — Figma gradient + Recoleta 52px. */}
                 <div
-                  className="absolute bottom-0 left-0 h-[159px] w-[480px]"
+                  className="absolute bottom-0 left-0 h-[200px] w-[480px]"
                   style={{
                     backgroundImage:
                       'linear-gradient(0.919deg, rgba(0,0,0,0.77) 2.37%, rgba(0,0,0,0) 97.78%)',
                   }}
                 >
                   <p
-                    className="absolute left-[calc(50%-192px)] top-[44px] w-[335px] font-recoleta text-[52px] font-medium leading-[1.38] tracking-[-0.52px] text-white"
+                    className="absolute left-[calc(50%-192px)] top-[28px] w-[335px] font-recoleta text-[52px] font-medium leading-[1.38] tracking-[-0.52px] text-white"
                     style={{ width: card.w }}
                   >
                     {card.label}
