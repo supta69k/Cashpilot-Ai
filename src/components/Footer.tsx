@@ -1,4 +1,4 @@
-import object from '../assets/icons/footer/object.png'
+import footerImg from '../assets/icons/footer/footer-img.png'
 import object1 from '../assets/icons/footer/object1.png'
 import line from '../assets/icons/footer/line.svg'
 import fb from '../assets/icons/footer/fb.svg'
@@ -13,9 +13,13 @@ const UTILITIES = ['Features', 'Pricing', 'Affiliate Program', 'Press Kit']
 export default function Footer() {
   return (
     <footer className="relative w-full overflow-hidden bg-[#f7f6f4] pt-[197px]">
-      {/* Background angled image layer — Figma 14:8413. */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-[-8%] h-[28%] origin-bottom-left rotate-[7.83deg]">
-        <img src={object} alt="" className="absolute inset-0 h-[100.3%] w-full object-cover" />
+      {/* Footer image strip — Figma 73:106 pinned to the page bottom, 1440×212.
+          The artwork sits in a 1595×894 box (inset -5.4%/-92%) rotated 7.84°,
+          with the object (1514.9×693.85) centred, so only the band shows. */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[212px] overflow-hidden">
+        <div className="absolute left-1/2 top-[-94.9px] h-[693.85px] w-[1514.9px] -translate-x-1/2 rotate-[7.84deg]">
+          <img src={footerImg} alt="" className="absolute inset-0 h-[100.3%] w-full max-w-none" />
+        </div>
       </div>
 
       {/* Footer container — Figma 14:8414 at (101,0), 1440×539. */}
@@ -90,8 +94,8 @@ export default function Footer() {
             <img src={line} alt="" className="h-px w-full" />
           </div>
 
-          {/* Bottom bar — Figma 14:8419. */}
-          <div className="flex items-center justify-between pb-[65px] pt-[24.5px] font-satoshi text-[14px] text-[#1e1a1c]">
+          {/* Bottom bar — Figma 14:8419. pb keeps the copy clear of the 212px strip. */}
+          <div className="flex items-center justify-between pb-[277px] pt-[24.5px] font-satoshi text-[14px] text-[#1e1a1c]">
             <span>Copyright © 2026 CashPilot. All Rights Reserved</span>
 
             {/* Social icons — Figma 14:8421. */}
