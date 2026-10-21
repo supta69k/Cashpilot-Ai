@@ -1,9 +1,9 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
-import heroBg from '../assets/hero-bg.png'
 import chevronRight from '../assets/icons/chevron-right.svg'
-import objectLogo from '../assets/icons/object.png'
+import objectLogo from '../assets/icons/object.webp'
 import Dashboard from './Dashboard'
+import FitScale from './FitScale'
 
 const NAV_LINKS = [
   { label: 'Product', left: 0 },
@@ -20,6 +20,7 @@ export default function Hero() {
   const actionsRef = useRef<HTMLDivElement>(null)
   const taglineRef = useRef<HTMLParagraphElement>(null)
   const dashboardRef = useRef<HTMLDivElement>(null)
+  const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
     // gsap.context scoped to the section; autoAlpha handles visibility too.
@@ -52,24 +53,34 @@ export default function Hero() {
   return (
     <section ref={sectionRef} className="relative w-full bg-[#f7f6f4]">
       {/* Inset rounded image card — Figma: 1413×964 at page (14,13), so 14px left / 13px right+top. */}
-      <div className="relative ml-[14px] mr-[13px] mt-[13px] h-[964px] overflow-hidden rounded-2xl">
-        <img src={heroBg} alt="" className="absolute inset-0 w-full h-full object-cover" />
+      <div className="relative ml-[14px] mr-[13px] mt-[13px] h-[700px] overflow-hidden rounded-2xl sm:h-[760px] lg:h-[964px]">
+        <img
+          src="/hero-bg.webp"
+          srcSet="/hero-bg-960.webp 960w, /hero-bg.webp 1536w"
+          sizes="100vw"
+          alt=""
+          fetchPriority="high"
+          decoding="async"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
         <div className="absolute inset-0 bg-black/15" />
 
         {/* Navigation — Figma node 14:7977, 96px tall, content inset 106/107px. */}
         <nav
           ref={navRef}
-          className="absolute inset-x-0 top-0 z-30 flex h-[96px] items-center justify-between pl-[106px] pr-[107px]"
+          className="absolute inset-x-0 top-0 z-30 flex h-[72px] items-center justify-between px-5 lg:h-[96px] lg:pl-[106px] lg:pr-[107px]"
         >
           <a href="#" className="flex items-center gap-[9px]">
             <span className="flex h-8 w-8 items-center justify-center rounded-[9px] bg-[#cbfc58] px-1 py-2">
               <img src={objectLogo} alt="" className="h-full w-full object-contain" />
             </span>
-            <span className="font-satoshi text-[23px] leading-none text-white">CashPilot AI</span>
+            <span className="whitespace-nowrap font-satoshi text-[20px] leading-none text-white lg:text-[23px]">
+              CashPilot AI
+            </span>
           </a>
 
           {/* Page links — block center sits 22px left of card center in Figma. */}
-          <div className="absolute left-[calc(50%-22px)] top-1/2 h-[21px] w-[318px] -translate-x-1/2 -translate-y-1/2 font-satoshi text-[14px] leading-[1.5] text-white [text-shadow:0px_1px_3px_rgba(3,10,26,0.8)]">
+          <div className="absolute left-[calc(50%-22px)] top-1/2 hidden h-[21px] w-[318px] -translate-x-1/2 -translate-y-1/2 font-satoshi text-[14px] leading-[1.5] text-white [text-shadow:0px_1px_3px_rgba(3,10,26,0.8)] lg:block">
             {NAV_LINKS.map((link) => (
               <a
                 key={link.label}
@@ -82,7 +93,8 @@ export default function Hero() {
             ))}
           </div>
 
-          <div className="relative h-[52px] w-[212px]">
+          {/* Desktop actions — exact Figma placement. */}
+          <div className="relative hidden h-[52px] w-[212px] lg:block">
             <a
               href="#"
               className="absolute left-0 top-[15.5px] font-satoshi text-[14px] font-medium leading-[1.5] text-[#191c19] transition-opacity hover:opacity-70"
@@ -94,13 +106,64 @@ export default function Hero() {
               <img src={chevronRight} alt="" className="h-4 w-4" />
             </button>
           </div>
+
+          {/* Compact actions — below lg. */}
+          <div className="flex items-center gap-2 lg:hidden">
+            <a href="#" className="hidden px-2 font-satoshi text-[14px] font-medium text-white sm:block">
+              Log in
+            </a>
+            <button className="hidden h-[42px] cursor-pointer items-center gap-2 rounded-[10px] bg-[#cbfc58] px-4 sm:flex">
+              <span className="whitespace-nowrap font-satoshi text-[14px] leading-[1.7] text-black">
+                Get started
+              </span>
+              <img src={chevronRight} alt="" className="h-3.5 w-3.5" />
+            </button>
+            <button
+              type="button"
+              aria-label="Open menu"
+              aria-expanded={menuOpen}
+              onClick={() => setMenuOpen((open) => !open)}
+              className="flex size-[42px] cursor-pointer flex-col items-center justify-center gap-[5px] rounded-[10px] border border-white/25 bg-white/10 backdrop-blur-sm"
+            >
+              <span
+                className={`h-px w-[18px] bg-white transition-transform ${menuOpen ? 'translate-y-[6px] rotate-45' : ''}`}
+              />
+              <span className={`h-px w-[18px] bg-white transition-opacity ${menuOpen ? 'opacity-0' : ''}`} />
+              <span
+                className={`h-px w-[18px] bg-white transition-transform ${menuOpen ? '-translate-y-[6px] -rotate-45' : ''}`}
+              />
+            </button>
+          </div>
         </nav>
 
+        {/* Mobile menu panel */}
+        {menuOpen && (
+          <div className="absolute inset-x-4 top-[80px] z-40 rounded-2xl bg-[#f7f6f4] p-2 shadow-2xl lg:hidden">
+            {NAV_LINKS.map((link) => (
+              <a
+                key={link.label}
+                href="#"
+                onClick={() => setMenuOpen(false)}
+                className="block rounded-xl px-4 py-3 font-satoshi text-[16px] text-[#191c19] hover:bg-black/5"
+              >
+                {link.label}
+              </a>
+            ))}
+            <a
+              href="#"
+              onClick={() => setMenuOpen(false)}
+              className="block rounded-xl px-4 py-3 font-satoshi text-[16px] font-medium text-[#191c19] hover:bg-black/5"
+            >
+              Log in
+            </a>
+          </div>
+        )}
+
         {/* Hero content — headline top at y=211 inside the card (Figma 14:7970 at y=155 + 56). */}
-        <div className="relative z-10 flex flex-col items-center pt-[211px]">
+        <div className="relative z-10 flex flex-col items-center px-5 pt-[124px] sm:pt-[168px] lg:px-0 lg:pt-[211px]">
           <h1
             ref={headlineRef}
-            className="font-recoleta font-medium text-[66px] leading-[1.08] text-white text-center max-w-[658px]"
+            className="max-w-[658px] text-center font-recoleta text-[clamp(30px,8vw,66px)] font-medium leading-[1.08] text-white"
           >
             <span className="block">Know your cash.</span>
             <span className="block text-[rgba(255,255,255,0.85)]">Plan your next move.</span>
@@ -108,15 +171,18 @@ export default function Hero() {
 
           <p
             ref={descRef}
-            className="font-satoshi text-[18px] leading-[1.5] tracking-[-0.27px] text-white text-center max-w-[787px] mt-[24px]"
+            className="mt-[24px] max-w-[787px] text-center font-satoshi text-[clamp(15px,2vw,18px)] leading-[1.5] tracking-[-0.27px] text-white"
           >
             See what&rsquo;s coming, understand what needs attention, and act with confidence.
             Your dashboard, AI chat, and Telegram&mdash;all working from the same financial picture.
           </p>
 
-          <div ref={actionsRef} className="flex gap-[18.5px] mt-[24px]">
+          <div
+            ref={actionsRef}
+            className="mt-[24px] flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:gap-[18.5px]"
+          >
             {/* Primary CTA */}
-            <button className="flex items-center gap-[10px] h-[52px] px-5 rounded-[10px] bg-[#cbfc58] hover:bg-[#b8e845] transition-colors cursor-pointer">
+            <button className="flex h-[52px] w-full cursor-pointer items-center justify-center gap-[10px] rounded-[10px] bg-[#cbfc58] px-5 transition-colors hover:bg-[#b8e845] sm:w-auto">
               <span className="font-satoshi text-[16px] leading-[1.7] text-black">
                 Explore the dashboard
               </span>
@@ -124,7 +190,7 @@ export default function Hero() {
             </button>
 
             {/* Secondary CTA */}
-            <button className="flex items-center justify-center h-[50px] w-[190px] rounded-[10px] border border-[rgba(255,255,255,0.46)] bg-[rgba(255,255,255,0.22)] hover:bg-[rgba(255,255,255,0.3)] transition-colors cursor-pointer">
+            <button className="flex h-[50px] w-full cursor-pointer items-center justify-center rounded-[10px] border border-[rgba(255,255,255,0.46)] bg-[rgba(255,255,255,0.22)] transition-colors hover:bg-[rgba(255,255,255,0.3)] sm:w-[190px]">
               <span className="font-satoshi text-[16px] leading-[1.7] text-[#fcfdfb]">
                 See how it works
               </span>
@@ -133,7 +199,7 @@ export default function Hero() {
 
           <p
             ref={taglineRef}
-            className="font-satoshi text-[12px] leading-[1.5] text-[#201e34] mt-[24px]"
+            className="mt-[24px] text-center font-satoshi text-[12px] leading-[1.5] text-[#201e34]"
           >
             Clear forecasts · Actionable alerts · You approve the next step
           </p>
@@ -141,9 +207,13 @@ export default function Hero() {
 
         {/* Dashboard mockup — Figma: 1200×676 at (107,628); the card clips it at 964,
             so only the top 336px of the mockup is visible. */}
-        <div className="absolute left-1/2 top-[628px] z-20 w-[1200px] -translate-x-1/2">
-          <div ref={dashboardRef}>
-            <Dashboard />
+        <div className="absolute inset-x-0 top-[520px] z-20 sm:top-[560px] lg:top-[628px]">
+          <div className="mx-auto w-[1200px] max-w-[calc(100%-32px)]">
+            <div ref={dashboardRef}>
+              <FitScale width={1200} height={676} minScale={0.5}>
+                <Dashboard />
+              </FitScale>
+            </div>
           </div>
         </div>
       </div>

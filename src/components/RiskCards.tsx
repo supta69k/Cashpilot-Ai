@@ -1,10 +1,10 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, type CSSProperties } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import card1 from '../assets/icons/sec7/card1.png'
-import card2 from '../assets/icons/sec7/card2.png'
-import card3 from '../assets/icons/sec7/card3.png'
-import card4 from '../assets/icons/sec7/card4.png'
+import card1 from '../assets/icons/sec7/card1.webp'
+import card2 from '../assets/icons/sec7/card2.webp'
+import card3 from '../assets/icons/sec7/card3.webp'
+import card4 from '../assets/icons/sec7/card4.webp'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -33,23 +33,26 @@ export default function RiskCards() {
         scrollTrigger: { trigger: '[data-head]', start: 'top 82%', once: true },
       })
 
-      // The track is 2010px wide; viewport shows ~1440px, so ~570px of travel.
-      // Pin the section and scrub the track leftward as the user scrolls.
-      const travel = 2010 - 1440 + 60 // extra breathing room at the end
-
-      gsap.to(trackRef.current, {
-        x: -travel,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '[data-track-wrap]',
-          start: 'top 12%',
-          end: '+=1600',
-          scrub: 1,
-          pin: '[data-track-wrap]',
-          pinSpacing: true,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-        },
+      // Pinned horizontal scrub only where the viewport can hold the track
+      // comfortably; on phones and tablets the track is a native swipe carousel.
+      const mm = gsap.matchMedia()
+      mm.add('(min-width: 1024px)', () => {
+        // The track is 2010px wide; travel is however much it overhangs the
+        // viewport, plus a little breathing room at the end.
+        gsap.to(trackRef.current, {
+          x: () => -Math.max(0, (trackRef.current?.scrollWidth ?? 0) - window.innerWidth + 60),
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '[data-track-wrap]',
+            start: 'top 12%',
+            end: '+=1600',
+            scrub: 1,
+            pin: '[data-track-wrap]',
+            pinSpacing: true,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+          },
+        })
       })
     }, sectionRef)
 
@@ -62,7 +65,7 @@ export default function RiskCards() {
         {/* Heading — Figma 14:8244 at (446,6680), 548×165, centered on 1440. */}
         <div
           data-head
-          className="mx-auto flex w-[548px] flex-col items-center gap-[30px] pt-[284px] text-center"
+          className="mx-auto flex w-[548px] max-w-[calc(100%-40px)] flex-col items-center gap-[18px] pt-[140px] text-center sm:gap-[30px] sm:pt-[190px] lg:pt-[284px]"
         >
           <p
             data-reveal-head
@@ -72,7 +75,7 @@ export default function RiskCards() {
           </p>
           <h2
             data-reveal-head
-            className="w-full font-satoshi text-[46px] leading-[1.18] tracking-[-2px] text-[#191c19]"
+            className="w-full font-satoshi text-[clamp(30px,5vw,46px)] leading-[1.18] tracking-[-2px] text-[#191c19]"
           >
             Know What Needs Your
             <br />
@@ -81,30 +84,39 @@ export default function RiskCards() {
         </div>
 
         {/* Horizontal track — Figma 14:8319 at (0,238), 2010×518. */}
-        <div data-track-wrap className="relative mt-[73px] h-[518px] overflow-hidden">
+        <div
+          data-track-wrap
+          className="no-scrollbar relative mt-[44px] h-[360px] snap-x snap-mandatory overflow-x-auto overflow-y-hidden sm:h-[430px] lg:mt-[73px] lg:h-[518px] lg:snap-none lg:overflow-hidden"
+        >
           <div
             ref={trackRef}
-            className="absolute left-0 top-0 flex h-[518px] w-[2010px] items-center gap-[30px]"
+            className="absolute left-0 top-0 flex h-[360px] w-max items-center gap-4 px-5 sm:h-[430px] sm:gap-6 lg:h-[518px] lg:gap-[30px] lg:px-0"
           >
-            {CARDS.map((card, i) => (
+            {CARDS.map((card) => (
               <div
-                key={i}
-                className="relative h-[518px] w-[480px] shrink-0 overflow-hidden rounded-[3px]"
+                key={card.label}
+                className="relative h-[360px] w-[280px] shrink-0 snap-center overflow-hidden rounded-[3px] sm:h-[430px] sm:w-[340px] lg:h-[518px] lg:w-[480px]"
               >
-                <img src={card.src} alt="" className="absolute inset-0 size-full object-cover" />
+                <img
+                  src={card.src}
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                  className="absolute inset-0 size-full object-cover"
+                />
                 <div className="absolute inset-0 bg-black/45" />
 
                 {/* Gradient label block — Figma gradient + Recoleta 52px. */}
                 <div
-                  className="absolute bottom-0 left-0 h-[200px] w-[480px]"
+                  className="absolute bottom-0 left-0 h-[160px] w-full lg:h-[200px] lg:w-[480px]"
                   style={{
                     backgroundImage:
                       'linear-gradient(0.919deg, rgba(0,0,0,0.77) 2.37%, rgba(0,0,0,0) 97.78%)',
                   }}
                 >
                   <p
-                    className="absolute left-[calc(50%-192px)] top-[28px] w-[335px] font-recoleta text-[52px] font-medium leading-[1.38] tracking-[-0.52px] text-white"
-                    style={{ width: card.w }}
+                    className="absolute left-6 top-6 w-[80%] font-recoleta text-[26px] font-medium leading-[1.2] tracking-[-0.3px] text-white sm:text-[32px] lg:left-[calc(50%-192px)] lg:top-[28px] lg:w-[var(--label-w)] lg:text-[52px] lg:leading-[1.38] lg:tracking-[-0.52px]"
+                    style={{ '--label-w': `${card.w}px` } as CSSProperties}
                   >
                     {card.label}
                   </p>

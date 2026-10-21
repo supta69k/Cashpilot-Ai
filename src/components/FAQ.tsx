@@ -81,28 +81,28 @@ export default function FAQ() {
 
   return (
     <section ref={sectionRef} className="relative w-full bg-[#f7f6f4]">
-      <div className="mx-auto w-[921px] max-w-[calc(100%-64px)] pt-[357px]">
+      <div className="mx-auto w-[921px] max-w-[calc(100%-32px)] pt-[120px] sm:pt-[180px] lg:max-w-[calc(100%-64px)] lg:pt-[357px]">
         {/* Heading — Figma 14:8336 at (141,0), 639×138. */}
         <div
           data-head
-          className="mx-auto flex w-[639px] flex-col items-center gap-[30px] text-center"
+          className="mx-auto flex w-[639px] max-w-full flex-col items-center gap-[18px] text-center sm:gap-[30px]"
         >
           <p
             data-reveal-head
-            className="w-full font-satoshi text-[24px] leading-[1.7] tracking-[-0.4px] text-[#494f5b]"
+            className="w-full font-satoshi text-[18px] leading-[1.7] tracking-[-0.4px] text-[#494f5b] sm:text-[24px]"
           >
             FAQs
           </p>
           <h2
             data-reveal-head
-            className="w-full font-recoleta text-[60px] leading-[1.12] tracking-[-2.3px] text-[#191c19]"
+            className="w-full font-recoleta text-[clamp(29px,7vw,60px)] leading-[1.12] tracking-[-2.3px] text-[#191c19]"
           >
             Your Questions Answered
           </h2>
         </div>
 
         {/* FAQ list — Figma 14:8339 at (0,191), 921×852. */}
-        <div data-faq-list className="mt-[53px] flex flex-col gap-[20px]">
+        <div data-faq-list className="mt-[36px] flex flex-col gap-[14px] sm:mt-[53px] sm:gap-[20px]">
           {FAQS.map((item, idx) => {
             const isOpen = idx === openIndex
             return (
@@ -116,26 +116,30 @@ export default function FAQ() {
                 {/* Question row — Figma 14:8341 / 14:8354 etc, 110.52px tall. */}
                 <button
                   onClick={() => toggle(idx)}
-                  className="flex w-full items-center gap-[49.12px] px-[36.84px] py-[24.56px] text-left"
+                  className="flex w-full items-center gap-[16px] px-4 py-[16px] text-left sm:gap-[24px] sm:px-7 sm:py-[20px] lg:gap-[49.12px] lg:px-[36.84px] lg:py-[24.56px]"
                 >
-                  <img src={item.icon} alt="" className="size-[61.4px] shrink-0" />
-                  <span className="flex-1 font-satoshi text-[32px] font-medium leading-[1.8] tracking-[-0.614px] text-[#0a0915]">
+                  <img
+                    src={item.icon}
+                    alt=""
+                    className="size-[40px] shrink-0 sm:size-[50px] lg:size-[61.4px]"
+                  />
+                  <span className="flex-1 font-satoshi text-[clamp(17px,3.4vw,32px)] font-medium leading-[1.4] tracking-[-0.614px] text-[#0a0915] lg:leading-[1.8]">
                     {item.q}
                   </span>
                   <img
                     src={elements}
                     alt=""
-                    className={`size-[20px] shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+                    className={`size-[20px] shrink-0 transition-transform duration-200 ${isOpen ? '' : 'rotate-180'}`}
                   />
                 </button>
 
                 {/* Answer panel — only visible when expanded. Figma 14:8352, 194.945px. */}
                 <div
                   className={`overflow-hidden transition-[max-height,opacity] duration-300 ease-out ${
-                    isOpen ? 'max-h-[220px] opacity-100' : 'max-h-0 opacity-0'
+                    isOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
                   }`}
                 >
-                  <p className="px-[36.84px] pb-[30.7px] pt-[10px] font-satoshi text-[26px] leading-[1.8] text-[#52525a]">
+                  <p className="px-4 pb-6 pt-2 font-satoshi text-[clamp(15px,2.8vw,26px)] leading-[1.8] text-[#52525a] sm:px-7 lg:px-[36.84px] lg:pb-[30.7px] lg:pt-[10px]">
                     {item.a}
                   </p>
                 </div>

@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import objectLogo from '../assets/icons/object.png'
+import objectLogo from '../assets/icons/object.webp'
 import circle from '../assets/icons/sec4/circle.svg'
 import arrowDrop from '../assets/icons/sec4/arrow-drop.svg'
 import gridline from '../assets/icons/sec4/gridline.svg'

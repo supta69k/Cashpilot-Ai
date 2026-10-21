@@ -40,13 +40,13 @@ export default function CTA() {
   return (
     <section
       ref={sectionRef}
-      className="relative mt-[238px] w-full bg-white pt-[80px] pb-[81px]"
+      className="relative mt-[110px] w-full bg-white pb-[60px] pt-[40px] sm:mt-[170px] sm:pb-[81px] sm:pt-[80px] lg:mt-[238px]"
     >
       <div className="mx-auto w-full max-w-[1440px]">
         {/* Lime card — Figma 14:8399 centered in the 1440×722 frame, 1224×561. */}
         <div
           data-cta
-          className="relative mx-auto h-[561px] w-[1224px] overflow-hidden rounded-[3px] bg-[#cbfc58]"
+          className="relative mx-auto w-[calc(100%-24px)] max-w-[1224px] overflow-hidden rounded-[3px] bg-[#cbfc58] px-5 py-14 sm:px-8 sm:py-20 lg:h-[561px] lg:w-[1224px] lg:px-0 lg:py-0"
         >
           {/* Decorative vector blob — Figma 14:8400: 565² at top 56.51% / bottom -57.22%. */}
           <div className="pointer-events-none absolute bottom-[-57.22%] left-[calc(50%+0.5px)] top-[56.51%] w-[565px] -translate-x-1/2">
@@ -54,17 +54,17 @@ export default function CTA() {
           </div>
 
           {/* Content block — Figma 14:8401 at center. */}
-          <div className="absolute left-1/2 top-1/2 flex w-[818px] -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-[56px] text-center">
-            <div className="flex flex-col items-center gap-[24px]">
+          <div className="relative flex flex-col items-center gap-8 text-center lg:absolute lg:left-1/2 lg:top-1/2 lg:w-[818px] lg:-translate-x-1/2 lg:-translate-y-1/2 lg:gap-[56px]">
+            <div className="flex flex-col items-center gap-[18px] lg:gap-[24px]">
               <h2
                 data-reveal-cta
-                className="whitespace-nowrap font-recoleta text-[64px] leading-[1.25] tracking-[-2.5px] text-black"
+                className="font-recoleta text-[clamp(30px,6.4vw,64px)] leading-[1.15] tracking-[-2.5px] text-black lg:whitespace-nowrap lg:leading-[1.25]"
               >
                 Take Control of Your Cash Flow
               </h2>
               <p
                 data-reveal-cta
-                className="w-[807px] font-satoshi text-[20px] leading-[1.7] tracking-[-0.5px] text-[#0a0d0b]"
+                className="w-full max-w-[807px] font-satoshi text-[clamp(16px,2.4vw,20px)] leading-[1.7] tracking-[-0.5px] text-[#0a0d0b]"
               >
                 Get a clearer picture of your finances, anticipate what&rsquo;s coming next, and
                 make smarter decisions with your AI financial assistant.

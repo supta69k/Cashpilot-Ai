@@ -1,11 +1,12 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import invoiceBg from '../assets/icons/sec6/invoice-bg.png'
-import donutBg from '../assets/icons/sec6/donut-bg.png'
+import invoiceBg from '../assets/icons/sec6/invoice-bg.webp'
+import donutBg from '../assets/icons/sec6/donut-bg.webp'
 import searchIcon from '../assets/icons/sec6/search.svg'
 import arrowUp from '../assets/icons/sec6/arrow-up.svg'
 import donutRing from '../assets/icons/sec6/donut-ring.svg'
+import FitScale from './FitScale'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -29,30 +30,52 @@ export default function Invoices() {
       const rows = gsap.utils.toArray<HTMLElement>('[data-bento-row]')
       const rowTwo = rows[1]
 
-      // Left cards slide in from the left edge, right cards from the right
-      // edge, tied to scroll as each row comes into view.
-      rows.forEach((row) => {
-        const [left, right] = gsap.utils.toArray<HTMLElement>('[data-tile]', row)
-        if (!left || !right) return
+      // Desktop: left cards slide in from the left edge, right cards from the
+      // right edge, tied to scroll as each row comes into view. On narrower
+      // screens the rows are stacked, so the tiles simply rise into place.
+      const mm = gsap.matchMedia()
 
-        gsap.fromTo(
-          left,
-          { x: -220 },
-          {
-            x: 0,
-            ease: 'power2.out',
-            scrollTrigger: { trigger: row, start: 'top bottom', end: 'top 40%', scrub: 0.7 },
-          },
-        )
-        gsap.fromTo(
-          right,
-          { x: 220 },
-          {
-            x: 0,
-            ease: 'power2.out',
-            scrollTrigger: { trigger: row, start: 'top bottom', end: 'top 40%', scrub: 0.7 },
-          },
-        )
+      mm.add('(min-width: 1024px)', () => {
+        rows.forEach((row) => {
+          const [left, right] = gsap.utils.toArray<HTMLElement>('[data-tile]', row)
+          if (!left || !right) return
+
+          gsap.fromTo(
+            left,
+            { x: -220 },
+            {
+              x: 0,
+              ease: 'power2.out',
+              scrollTrigger: { trigger: row, start: 'top bottom', end: 'top 40%', scrub: 0.7 },
+            },
+          )
+          gsap.fromTo(
+            right,
+            { x: 220 },
+            {
+              x: 0,
+              ease: 'power2.out',
+              scrollTrigger: { trigger: row, start: 'top bottom', end: 'top 40%', scrub: 0.7 },
+            },
+          )
+        })
+      })
+
+      mm.add('(max-width: 1023px)', () => {
+        rows.forEach((row) => {
+          gsap.fromTo(
+            gsap.utils.toArray<HTMLElement>('[data-tile]', row),
+            { autoAlpha: 0, y: 40 },
+            {
+              autoAlpha: 1,
+              y: 0,
+              duration: 0.8,
+              stagger: 0.12,
+              ease: 'power3.out',
+              scrollTrigger: { trigger: row, start: 'top 84%', once: true },
+            },
+          )
+        })
       })
 
       gsap.set('[data-invoice-list]', { autoAlpha: 0, x: -18 })
@@ -146,14 +169,17 @@ export default function Invoices() {
 
   return (
     <section ref={sectionRef} className="relative w-full overflow-x-clip bg-[#f7f6f4]">
-      <div className="mx-auto w-[1213px] max-w-[calc(100%-64px)] pt-[385px]">
+      <div className="mx-auto w-[1213px] max-w-[calc(100%-32px)] pt-[110px] sm:pt-[170px] lg:max-w-[calc(100%-64px)] lg:pt-[385px]">
         {/* Figma 52:18080 is 1213 wide, but the two rows split it differently:
             top 593 + 28 + 592, bottom 506 + 28 + 679. A CSS grid would force one
             column template on both rows, so each row is its own flex line. */}
-        <div data-bento className="flex h-[1046px] flex-col gap-[28px]">
-          <div data-bento-row className="flex h-[509px] gap-[28px]">
+        <div data-bento className="flex h-auto flex-col gap-[28px] lg:h-[1046px]">
+          <div data-bento-row className="flex flex-col gap-[28px] lg:h-[509px] lg:flex-row">
           {/* Tile 1 — invoices over photography. Figma 14:8247. */}
-          <div data-tile className="relative w-[593px] overflow-hidden rounded-[3px]">
+          <div
+            data-tile
+            className="relative aspect-[593/509] w-full overflow-hidden rounded-[3px] lg:aspect-auto lg:h-[509px] lg:w-[593px] lg:shrink-0"
+          >
             <div
               data-parallax
               className="absolute left-0 top-0 h-[635.476px] w-[1399.627px] overflow-hidden rounded-[3px]"
@@ -161,13 +187,18 @@ export default function Invoices() {
               <img
                 src={invoiceBg}
                 alt=""
+                loading="lazy"
+                decoding="async"
                 className="absolute left-[-40.83%] top-[-9.36%] h-[103.49%] w-[99.99%] max-w-none"
               />
             </div>
             <div className="absolute inset-0 rounded-[3px] bg-black/10" />
 
             {/* Invoice panel — Figma 14:8249, 470×335 centred. */}
-            <div className="absolute left-1/2 top-1/2 h-[335px] w-[470px] -translate-x-1/2 -translate-y-1/2 overflow-clip rounded-[12px] bg-white">
+            <div className="absolute inset-0 flex items-center justify-center p-4 lg:p-0">
+              <div className="w-[470px] max-w-full">
+                <FitScale width={470} height={335}>
+                  <div className="relative h-[335px] w-[470px] overflow-clip rounded-[12px] bg-white">
               <div className="absolute left-[26px] top-[22px] flex items-center gap-[88px]">
                 <p className="w-[87px] font-recoleta text-[24px] leading-[1.5] text-[#191c19]">Invoices</p>
                 <div className="relative h-[38px] w-[251px] overflow-clip rounded-[7px] border border-[#e8eae3]">
@@ -240,18 +271,24 @@ export default function Invoices() {
                   ))}
                 </div>
               </div>
+                  </div>
+                </FitScale>
+              </div>
             </div>
           </div>
 
           {/* Tile 2 — copy. Figma 14:8294. */}
-          <div data-tile className="relative w-[592px] overflow-hidden rounded-[3px] bg-white">
-            <div className="absolute left-[49px] top-1/2 flex w-[494px] -translate-y-1/2 flex-col gap-[38px]">
-              <h3 className="font-recoleta text-[36px] leading-[1.16] text-[#191c19]">
+          <div
+            data-tile
+            className="relative w-full overflow-hidden rounded-[3px] bg-white px-6 py-10 sm:px-10 lg:h-[509px] lg:w-[592px] lg:px-0 lg:py-0"
+          >
+            <div className="flex flex-col gap-6 lg:absolute lg:left-[49px] lg:top-1/2 lg:w-[494px] lg:-translate-y-1/2 lg:gap-[38px]">
+              <h3 className="font-recoleta text-[clamp(27px,5vw,36px)] leading-[1.16] text-[#191c19]">
                 Follow up on invoices.
                 <br />
                 Not on spreadsheets.
               </h3>
-              <p className="font-recoleta text-[32px] leading-[1.5] tracking-[-0.8px] text-[#73776f]">
+              <p className="font-recoleta text-[clamp(20px,4vw,32px)] leading-[1.5] tracking-[-0.8px] text-[#73776f]">
                 Find an invoice, see who owes you, and prepare the right follow-up. Keep the
                 customer, amount, due date, and payment status together.
               </p>
@@ -261,14 +298,14 @@ export default function Invoices() {
           </div>
 
           {/* Bottom row — 506px quote + 679px donut (different split than top row). */}
-          <div data-bento-row className="flex h-[509px] gap-[28px]">
+          <div data-bento-row className="flex flex-col gap-[28px] lg:h-[509px] lg:flex-row">
           {/* Tile 3 — quote. Figma 14:8298. */}
           <div
             data-quote
             data-tile
-            className="relative w-[506px] overflow-hidden rounded-[3px] bg-[#333] text-center"
+            className="relative w-full overflow-hidden rounded-[3px] bg-[#333] px-6 py-12 text-center sm:px-10 lg:h-[509px] lg:w-[506px] lg:px-0 lg:py-0"
           >
-            <p className="absolute left-1/2 top-[123px] w-[378px] -translate-x-1/2 font-recoleta text-[45px] leading-[1.47] tracking-[-0.2px] text-white">
+            <p className="mx-auto w-full max-w-[378px] font-recoleta text-[clamp(26px,6vw,45px)] leading-[1.47] tracking-[-0.2px] text-white lg:absolute lg:left-1/2 lg:top-[123px] lg:w-[378px] lg:-translate-x-1/2">
               {QUOTE.split(' ').map((word, i, all) => (
                 <span key={`${word}-${i}`}>
                   <span data-quote-word className="inline-block">
@@ -280,25 +317,32 @@ export default function Invoices() {
             </p>
             <p
               data-attr
-              className="absolute left-1/2 top-[447px] -translate-x-1/2 whitespace-nowrap font-recoleta text-[24px] leading-[1.47] tracking-[-0.2px] text-[#bbb4b4]"
+              className="mt-10 whitespace-nowrap font-recoleta text-[20px] leading-[1.47] tracking-[-0.2px] text-[#bbb4b4] lg:absolute lg:left-1/2 lg:top-[447px] lg:mt-0 lg:-translate-x-1/2 lg:text-[24px]"
             >
               – Benjamin Franklin
             </p>
           </div>
 
           {/* Tile 4 — donut over photography. Figma 14:8301. */}
-          <div data-tile className="relative w-[679px] overflow-hidden rounded-[3px]">
+          <div
+            data-tile
+            className="relative w-full overflow-hidden rounded-[3px] py-10 lg:h-[509px] lg:w-[679px] lg:py-0"
+          >
             <div className="absolute left-[-28px] top-0 h-[586px] w-[899px]">
               <img
                 data-parallax
                 src={donutBg}
                 alt=""
+                loading="lazy"
+                decoding="async"
                 className="size-full rounded-[3px] object-cover"
               />
             </div>
 
             {/* Chart frame — Figma 14:8303 at (103,102); card sits at +56 inside it. */}
-            <div data-donut className="absolute left-[159px] top-[102px] h-[360px] w-[352px]">
+            <div className="mx-auto w-[352px] max-w-[calc(100%-32px)] lg:absolute lg:left-[159px] lg:top-[102px] lg:mx-0 lg:max-w-none">
+              <FitScale width={352} height={360}>
+                <div data-donut className="relative h-[360px] w-[352px]">
               <div className="absolute inset-0 overflow-clip rounded-[24px] bg-white shadow-[inset_0px_-4px_0px_0px_rgba(0,0,0,0.15)]">
                 <img
                   data-donut-ring
@@ -341,6 +385,8 @@ export default function Invoices() {
                   increased 12% from last month
                 </p>
               </div>
+                </div>
+              </FitScale>
             </div>
           </div>
           </div>

@@ -129,12 +129,12 @@ export default function Funnel() {
       <div className="mx-auto w-full max-w-[1440px]">
         <div
           data-panel
-          className="relative mx-auto mt-[357px] h-[787px] w-[1224px] overflow-hidden rounded-[5px] bg-white"
+          className="relative mx-auto mt-[120px] h-auto w-[calc(100%-32px)] max-w-[1224px] overflow-hidden rounded-[5px] bg-white px-5 pb-8 pt-10 sm:mt-[200px] lg:mt-[357px] lg:h-[787px] lg:w-[1224px] lg:p-0"
         >
           {/* Heading — Figma 14:8200 at card (338,88), 548×111. */}
           <div
             data-head
-            className="absolute left-1/2 top-[88px] flex w-[548px] -translate-x-1/2 flex-col items-center gap-[30px] text-center"
+            className="relative mx-auto flex w-full max-w-[548px] flex-col items-center gap-[18px] text-center lg:absolute lg:left-1/2 lg:top-[88px] lg:w-[548px] lg:-translate-x-1/2 lg:gap-[30px]"
           >
             <p
               data-reveal-head
@@ -144,29 +144,47 @@ export default function Funnel() {
             </p>
             <h2
               data-reveal-head
-              className="w-full font-satoshi text-[46px] leading-[1.18] tracking-[-2px] text-[#191c19]"
+              className="w-full font-satoshi text-[clamp(28px,4.4vw,46px)] leading-[1.18] tracking-[-2px] text-[#191c19]"
             >
               See the dip before you&rsquo;re in it.
             </h2>
           </div>
 
           {/* Chart panel — Figma 14:8203 at card (48,265), 1128×524. */}
-          <div className="absolute left-[48px] top-[265px] h-[524px] w-[1128px] rounded-[7px] bg-[#f7f6f4]">
+          <div className="relative mt-8 w-full rounded-[7px] bg-[#f7f6f4] p-4 lg:absolute lg:left-[48px] lg:top-[265px] lg:mt-0 lg:h-[524px] lg:w-[1128px] lg:p-0">
             {/* Title row — Figma 14:8236. */}
-            <div className="absolute left-[32px] top-[24px] h-[43px] w-[1064px]">
+            <div className="relative flex h-auto w-full items-center gap-3 lg:absolute lg:left-[32px] lg:top-[24px] lg:h-[43px] lg:w-[1064px] lg:gap-0">
               <div
                 data-title-icon
-                className="absolute left-0 top-[2px] flex size-[40px] items-center justify-center rounded-[8px] border border-[rgba(51,51,51,0.2)] bg-[#f9faf7]"
+                className="flex size-[40px] items-center justify-center rounded-[8px] border border-[rgba(51,51,51,0.2)] bg-[#f9faf7] lg:absolute lg:left-0 lg:top-[2px]"
               >
                 <img src={cashIcon} alt="" className="size-[20px]" />
               </div>
-              <p className="absolute left-[60px] top-[2px] whitespace-nowrap font-recoleta text-[24px] leading-[1.5] tracking-[-1px] text-[#333]">
+              <p className="whitespace-nowrap font-recoleta text-[20px] leading-[1.5] tracking-[-1px] text-[#333] lg:absolute lg:left-[60px] lg:top-[2px] lg:text-[24px]">
                 Cash-flow Funnel Analytics
               </p>
             </div>
 
+            {/* Compact figures for phones — the desktop chart is unreadable at
+                phone widths, so the numbers get their own readable grid. */}
+            <div className="mt-5 lg:hidden">
+              <div className="grid grid-cols-3 gap-x-3 gap-y-5">
+                {STATS.map((stat) => (
+                  <div key={stat.label}>
+                    <p className="font-satoshi text-[11px] leading-[1.4] tracking-[-0.2px] text-[#7a7b8f]">
+                      {stat.label}
+                    </p>
+                    <p className="mt-1 font-recoleta text-[22px] font-medium leading-[1.2] tracking-[-1px] text-[#333]">
+                      {stat.display}
+                    </p>
+                  </div>
+                ))}
+              </div>
+              <img src={funnelBand} alt="" className="mt-6 w-full" />
+            </div>
+
             {/* Columns + band. */}
-            <div data-chart className="absolute inset-0">
+            <div data-chart className="absolute inset-0 hidden lg:block">
               {STATS.map((stat, i) => (
                 <div
                   key={stat.label}

@@ -1,14 +1,15 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import objectLogo from '../assets/icons/object.png'
+import objectLogo from '../assets/icons/object.webp'
 import arrowDown from '../assets/icons/sec2/arrow-down.svg'
 import arrowDropDown from '../assets/icons/sec2/icon-arrow-drop-down.svg'
 import addPhotoIcon from '../assets/icons/sec2/icon-add-photo.svg'
 import addVideoIcon from '../assets/icons/sec2/icon-add-video.svg'
-import iphoneFrame from '../assets/icons/sec2/iphone-frame.png'
+import iphoneFrame from '../assets/icons/sec2/iphone-frame.webp'
 import statusLeft from '../assets/icons/sec2/status-left.svg'
 import statusRight from '../assets/icons/sec2/status-right.svg'
+import FitScale from './FitScale'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -79,7 +80,7 @@ export default function FeatureWays() {
         {/* Heading block — Figma 14:7990 at page (460,1088), 520×156. */}
         <div
           data-head
-          className="mx-auto flex w-[520px] flex-col items-center gap-[21px] pt-[111px] text-center"
+          className="mx-auto flex w-[520px] max-w-[calc(100%-40px)] flex-col items-center gap-[21px] pt-[72px] text-center sm:pt-[96px] lg:pt-[111px]"
         >
           <p
             data-reveal-head
@@ -89,7 +90,7 @@ export default function FeatureWays() {
           </p>
           <h2
             data-reveal-head
-            className="w-full font-satoshi text-[46px] leading-[1.18] tracking-[-2px] text-[#191c19]"
+            className="w-full font-satoshi text-[clamp(30px,5vw,46px)] leading-[1.18] tracking-[-2px] text-[#191c19]"
           >
             Same financial picture.
             <br />
@@ -98,10 +99,25 @@ export default function FeatureWays() {
         </div>
 
         {/* Three staggered cards — Figma 14:7996 at page (98,1363), 1236×599. */}
-        <div data-cards className="relative ml-[98px] mt-[119px] h-[599px] w-[1236px]">
-          <GlimpseCard />
-          <ChatCard />
-          <PhoneCard />
+        <div
+          data-cards
+          className="relative mt-[56px] flex w-full flex-col items-center gap-6 px-5 sm:mt-[80px] sm:grid sm:grid-cols-2 sm:justify-items-center lg:mt-[119px] lg:ml-[98px] lg:block lg:h-[599px] lg:w-[1236px] lg:px-0"
+        >
+          <div data-card className="w-full max-w-[380px] lg:absolute lg:left-0 lg:top-[148px] lg:w-[380px] lg:max-w-none">
+            <FitScale width={380} height={451}>
+              <GlimpseCard />
+            </FitScale>
+          </div>
+          <div data-card className="w-full max-w-[380px] lg:absolute lg:left-[428px] lg:top-[70px] lg:w-[380px] lg:max-w-none">
+            <FitScale width={380} height={451}>
+              <ChatCard />
+            </FitScale>
+          </div>
+          <div data-card className="w-full max-w-[380px] sm:col-span-2 lg:absolute lg:left-[856px] lg:top-0 lg:w-[380px] lg:max-w-none">
+            <FitScale width={380} height={451}>
+              <PhoneCard />
+            </FitScale>
+          </div>
         </div>
       </div>
     </section>
@@ -111,8 +127,7 @@ export default function FeatureWays() {
 function GlimpseCard() {
   return (
     <div
-      data-card
-      className="absolute left-0 top-[148px] h-[451px] w-[380px] overflow-hidden bg-white"
+      className="relative h-[451px] w-[380px] overflow-hidden bg-white"
     >
       <div className="absolute left-[46px] top-[29px] flex w-[296px] flex-col gap-[16px]">
         <h3 className="font-recoleta text-[32px] leading-[1.15] tracking-[-0.64px] text-[#191c19]">
@@ -148,8 +163,7 @@ function GlimpseCard() {
 function ChatCard() {
   return (
     <div
-      data-card
-      className="absolute left-[428px] top-[70px] h-[451px] w-[380px] overflow-hidden bg-white"
+      className="relative h-[451px] w-[380px] overflow-hidden bg-white"
     >
       <div className="absolute left-[20px] top-[25px] flex w-[339px] flex-col gap-[16px]">
         <h3 className="font-recoleta text-[32px] leading-[1.15] tracking-[-0.64px] text-[#191c19]">
@@ -213,8 +227,7 @@ function ChatCard() {
 function PhoneCard() {
   return (
     <div
-      data-card
-      className="absolute left-[856px] top-0 h-[451px] w-[380px] overflow-hidden bg-[#cbfc58]"
+      className="relative h-[451px] w-[380px] overflow-hidden bg-[#cbfc58]"
     >
       <div className="absolute left-[30px] top-[19px] flex w-[321px] flex-col gap-[16px]">
         <h3 className="font-recoleta text-[32px] leading-[1.15] tracking-[-0.64px] text-[#191c19]">

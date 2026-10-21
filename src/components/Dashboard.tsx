@@ -7,7 +7,7 @@ import bell from '../assets/icons/bell.svg'
 import sparkles from '../assets/icons/sparkles.svg'
 import sparkles1 from '../assets/icons/sparkles-1.svg'
 import history from '../assets/icons/history.svg'
-import objectLogo from '../assets/icons/object.png'
+import objectLogo from '../assets/icons/object.webp'
 import plotArea from '../assets/icons/plot-area.svg'
 
 const NAV_ITEMS = [
