@@ -26,7 +26,58 @@ export default function Invoices() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.set('[data-tile]', { autoAlpha: 0, y: 44 })
+      const rows = gsap.utils.toArray<HTMLElement>('[data-bento-row]')
+      const rowTwo = rows[1]
+
+      // Cards wait tucked behind the card ahead of them and slide out into
+      // their slots as each row scrolls through.
+      if (rows.length === 2) {
+        const rowOneTiles = gsap.utils.toArray<HTMLElement>('[data-tile]', rows[0])
+        const rowTwoTiles = gsap.utils.toArray<HTMLElement>('[data-tile]', rows[1])
+
+        if (rowOneTiles.length === 2 && rowTwoTiles.length === 2) {
+          const [cardOne, cardTwo] = rowOneTiles
+          const [cardThree, cardFour] = rowTwoTiles
+          const oneRect = cardOne.getBoundingClientRect()
+          const twoRect = cardTwo.getBoundingClientRect()
+          const threeRect = cardThree.getBoundingClientRect()
+          const fourRect = cardFour.getBoundingClientRect()
+
+          gsap.set(cardOne, { zIndex: 2 })
+          gsap.set(cardTwo, {
+            x: oneRect.left - twoRect.left,
+            y: 26,
+            scale: 0.96,
+            zIndex: 1,
+          })
+          gsap.to(cardTwo, {
+            x: 0,
+            y: 0,
+            scale: 1,
+            ease: 'power2.out',
+            scrollTrigger: { trigger: rows[0], start: 'top 92%', end: 'top 46%', scrub: 0.8 },
+          })
+
+          // Row two starts tucked behind row one: 03 drops into place, then
+          // 04 slides out from behind it.
+          const rowRise = oneRect.top - threeRect.top
+          gsap.set(cardThree, { y: rowRise, scale: 0.96, zIndex: 1 })
+          gsap.set(cardFour, {
+            x: threeRect.left - fourRect.left,
+            y: rowRise,
+            scale: 0.96,
+            zIndex: 0,
+          })
+          gsap
+            .timeline({
+              defaults: { ease: 'power2.out' },
+              scrollTrigger: { trigger: rows[1], start: 'top 92%', end: 'top 32%', scrub: 0.8 },
+            })
+            .to([cardThree, cardFour], { y: 0, scale: 1, duration: 1 }, 0)
+            .to(cardFour, { x: 0, duration: 1 }, 0.5)
+        }
+      }
+
       gsap.set('[data-invoice-list]', { autoAlpha: 0, x: -18 })
       gsap.set('[data-quote-word]', { opacity: 0.16 })
       gsap.set('[data-attr]', { autoAlpha: 0, y: 14 })
@@ -34,16 +85,6 @@ export default function Invoices() {
       gsap.set('[data-badge]', { autoAlpha: 0, scale: 0.6 })
       gsap.set('[data-donut-ring]', { autoAlpha: 0, scale: 0.85 })
       gsap.set('[data-donut-tail]', { autoAlpha: 0, y: 10 })
-
-      // Tiles rise in one after the other.
-      gsap.to('[data-tile]', {
-        autoAlpha: 1,
-        y: 0,
-        duration: 1,
-        stagger: 0.12,
-        ease: 'power3.out',
-        scrollTrigger: { trigger: '[data-bento]', start: 'top 80%', once: true },
-      })
 
       // Invoice rows slide in behind the first tile.
       gsap.to('[data-invoice-list]', {
@@ -56,17 +97,22 @@ export default function Invoices() {
       })
 
       // Background photography drifts for depth while the grid is in view.
+      // Start offset upward so the drift never exposes the tile's top edge.
       gsap.utils.toArray<HTMLElement>('[data-parallax]').forEach((img) => {
-        gsap.to(img, {
-          yPercent: 5,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: '[data-bento]',
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: true,
+        gsap.fromTo(
+          img,
+          { y: -img.offsetHeight * 0.05 },
+          {
+            y: 0,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: '[data-bento]',
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: true,
+            },
           },
-        })
+        )
       })
 
       // Quote reveals word by word as it scrolls through.
@@ -75,7 +121,7 @@ export default function Invoices() {
         ease: 'none',
         stagger: 0.35,
         scrollTrigger: {
-          trigger: '[data-quote]',
+          trigger: rowTwo,
           start: 'top 78%',
           end: 'bottom 62%',
           scrub: true,
@@ -87,12 +133,12 @@ export default function Invoices() {
         y: 0,
         duration: 0.8,
         ease: 'power2.out',
-        scrollTrigger: { trigger: '[data-quote]', start: 'top 52%', once: true },
+        scrollTrigger: { trigger: rowTwo, start: 'top 52%', once: true },
       })
 
       // Donut: the lime ring draws itself, the total counts up, the badge pops.
       const donutTl = gsap.timeline({
-        scrollTrigger: { trigger: '[data-donut]', start: 'top 75%', once: true },
+        scrollTrigger: { trigger: rowTwo, start: 'top 38%', once: true },
       })
 
       donutTl
@@ -128,7 +174,7 @@ export default function Invoices() {
             top 593 + 28 + 592, bottom 506 + 28 + 679. A CSS grid would force one
             column template on both rows, so each row is its own flex line. */}
         <div data-bento className="flex h-[1046px] flex-col gap-[28px]">
-          <div className="flex h-[509px] gap-[28px]">
+          <div data-bento-row className="flex h-[509px] gap-[28px]">
           {/* Tile 1 — invoices over photography. Figma 14:8247. */}
           <div data-tile className="relative w-[593px] overflow-hidden rounded-[3px]">
             <div
@@ -238,7 +284,7 @@ export default function Invoices() {
           </div>
 
           {/* Bottom row — 506px quote + 679px donut (different split than top row). */}
-          <div className="flex h-[509px] gap-[28px]">
+          <div data-bento-row className="flex h-[509px] gap-[28px]">
           {/* Tile 3 — quote. Figma 14:8298. */}
           <div
             data-quote
