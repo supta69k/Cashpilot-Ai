@@ -29,54 +29,31 @@ export default function Invoices() {
       const rows = gsap.utils.toArray<HTMLElement>('[data-bento-row]')
       const rowTwo = rows[1]
 
-      // Cards wait tucked behind the card ahead of them and slide out into
-      // their slots as each row scrolls through.
-      if (rows.length === 2) {
-        const rowOneTiles = gsap.utils.toArray<HTMLElement>('[data-tile]', rows[0])
-        const rowTwoTiles = gsap.utils.toArray<HTMLElement>('[data-tile]', rows[1])
+      // Left cards slide in from the left edge, right cards from the right
+      // edge, tied to scroll as each row comes into view.
+      rows.forEach((row) => {
+        const [left, right] = gsap.utils.toArray<HTMLElement>('[data-tile]', row)
+        if (!left || !right) return
 
-        if (rowOneTiles.length === 2 && rowTwoTiles.length === 2) {
-          const [cardOne, cardTwo] = rowOneTiles
-          const [cardThree, cardFour] = rowTwoTiles
-          const oneRect = cardOne.getBoundingClientRect()
-          const twoRect = cardTwo.getBoundingClientRect()
-          const threeRect = cardThree.getBoundingClientRect()
-          const fourRect = cardFour.getBoundingClientRect()
-
-          gsap.set(cardOne, { zIndex: 2 })
-          gsap.set(cardTwo, {
-            x: oneRect.left - twoRect.left,
-            y: 26,
-            scale: 0.96,
-            zIndex: 1,
-          })
-          gsap.to(cardTwo, {
+        gsap.fromTo(
+          left,
+          { x: -220 },
+          {
             x: 0,
-            y: 0,
-            scale: 1,
             ease: 'power2.out',
-            scrollTrigger: { trigger: rows[0], start: 'top 92%', end: 'top 46%', scrub: 0.8 },
-          })
-
-          // Row two starts tucked behind row one: 03 drops into place, then
-          // 04 slides out from behind it.
-          const rowRise = oneRect.top - threeRect.top
-          gsap.set(cardThree, { y: rowRise, scale: 0.96, zIndex: 1 })
-          gsap.set(cardFour, {
-            x: threeRect.left - fourRect.left,
-            y: rowRise,
-            scale: 0.96,
-            zIndex: 0,
-          })
-          gsap
-            .timeline({
-              defaults: { ease: 'power2.out' },
-              scrollTrigger: { trigger: rows[1], start: 'top 92%', end: 'top 32%', scrub: 0.8 },
-            })
-            .to([cardThree, cardFour], { y: 0, scale: 1, duration: 1 }, 0)
-            .to(cardFour, { x: 0, duration: 1 }, 0.5)
-        }
-      }
+            scrollTrigger: { trigger: row, start: 'top bottom', end: 'top 40%', scrub: 0.7 },
+          },
+        )
+        gsap.fromTo(
+          right,
+          { x: 220 },
+          {
+            x: 0,
+            ease: 'power2.out',
+            scrollTrigger: { trigger: row, start: 'top bottom', end: 'top 40%', scrub: 0.7 },
+          },
+        )
+      })
 
       gsap.set('[data-invoice-list]', { autoAlpha: 0, x: -18 })
       gsap.set('[data-quote-word]', { opacity: 0.16 })
@@ -168,7 +145,7 @@ export default function Invoices() {
   }, [])
 
   return (
-    <section ref={sectionRef} className="relative w-full bg-[#f7f6f4]">
+    <section ref={sectionRef} className="relative w-full overflow-x-clip bg-[#f7f6f4]">
       <div className="mx-auto w-[1213px] max-w-[calc(100%-64px)] pt-[385px]">
         {/* Figma 52:18080 is 1213 wide, but the two rows split it differently:
             top 593 + 28 + 592, bottom 506 + 28 + 679. A CSS grid would force one
