@@ -42,13 +42,13 @@ export default function Routine() {
 
       // 01 out, 02 and 03 move up one slot.
       tl.to(cards[0], { yPercent: -105, duration: 1 }, 0)
-        .to(cards[1], { y: -106, duration: 1 }, 0)
-        .to(cards[2], { y: -90, duration: 1 }, 0)
+        .to(cards[1], { y: -26, duration: 1 }, 0)
+        .to(cards[2], { y: -20, duration: 1 }, 0)
 
       // 02 out, 03 takes the front slot.
       tl.to({}, { duration: 0.3 })
       tl.to(cards[1], { yPercent: -105, duration: 1 })
-        .to(cards[2], { y: -196, duration: 1 }, '<')
+        .to(cards[2], { y: -46, duration: 1 }, '<')
     }, sectionRef)
 
     return () => ctx.revert()

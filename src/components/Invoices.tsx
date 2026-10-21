@@ -274,7 +274,8 @@ export default function Invoices() {
               />
             </div>
 
-            <div data-donut className="absolute left-[103px] top-[102px] h-[360px] w-[352px]">
+            {/* Chart frame — Figma 14:8303 at (103,102); card sits at +56 inside it. */}
+            <div data-donut className="absolute left-[159px] top-[102px] h-[360px] w-[352px]">
               <div className="absolute inset-0 overflow-clip rounded-[24px] bg-white shadow-[inset_0px_-4px_0px_0px_rgba(0,0,0,0.15)]">
                 <img
                   data-donut-ring
@@ -291,21 +292,23 @@ export default function Invoices() {
                   >
                     <span ref={totalRef}>$94,127</span>
                   </p>
-                  <div
-                    data-badge
-                    className="flex items-center gap-[2px] rounded-full border border-[#ff9f9d] bg-white px-[12px] py-[4px]"
-                  >
-                    <img src={arrowUp} alt="" className="mr-[2px] size-[18px] -scale-y-100" />
-                    <span className="font-satoshi text-[18px] leading-[1.8] tracking-[-0.4px] text-[#fb3b52]">
-                      21%
-                    </span>
+                  <div className="flex flex-col items-center gap-[4px]">
+                    <div
+                      data-badge
+                      className="flex items-center rounded-full border border-[#ff9f9d] bg-white px-[12px] py-[3px]"
+                    >
+                      <img src={arrowUp} alt="" className="size-[18px] -scale-y-100" />
+                      <span className="font-satoshi text-[18px] leading-[1.8] tracking-[-0.4px] text-[#fb3b52]">
+                        21%
+                      </span>
+                    </div>
+                    <p
+                      data-donut-tail
+                      className="whitespace-nowrap font-satoshi text-[16px] leading-[1.7] tracking-[-0.4px] text-[#52525a]"
+                    >
+                      vs last month
+                    </p>
                   </div>
-                  <p
-                    data-donut-tail
-                    className="whitespace-nowrap font-satoshi text-[16px] leading-[1.7] tracking-[-0.4px] text-[#52525a]"
-                  >
-                    vs last month
-                  </p>
                 </div>
 
                 <p

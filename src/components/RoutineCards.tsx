@@ -36,12 +36,12 @@ function CardShell({ top, z, background, borderColor, children }: CardShellProps
     <div
       data-card
       style={{ top, zIndex: z }}
-      className="absolute left-0 h-[540px] w-[1240px] overflow-hidden rounded-[5px]"
+      className="absolute left-0 h-[540px] w-[1240px] overflow-hidden rounded-[10px]"
     >
       <div className="absolute inset-0" style={{ backgroundColor: background }} />
       {children}
       <div
-        className="pointer-events-none absolute inset-0 rounded-[5px] border-8"
+        className="pointer-events-none absolute inset-0 rounded-[10px] border-8"
         style={{ borderColor }}
       />
     </div>
@@ -352,7 +352,7 @@ const CASH_FLOW_LABELS = [
 
 export function RoutineCardTwo() {
   return (
-    <CardShell top={106} z={20} background="#692671" borderColor="#a14395">
+    <CardShell top={26} z={20} background="#692671" borderColor="#a14395">
       {/* Faint grid behind the mock */}
       <div className="absolute left-[697px] top-[107.31px] h-[427.658px] w-[432.586px] rounded-[3.224px] bg-white opacity-[0.11]" />
       <img
@@ -469,7 +469,7 @@ const THINGS = [
 
 export function RoutineCardThree() {
   return (
-    <CardShell top={196} z={10} background="#03652b" borderColor="#259846">
+    <CardShell top={46} z={10} background="#03652b" borderColor="#259846">
       <img
         src={dotMatrix}
         alt=""
