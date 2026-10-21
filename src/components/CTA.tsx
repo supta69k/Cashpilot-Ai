@@ -38,26 +38,27 @@ export default function CTA() {
   }, [])
 
   return (
-    <section ref={sectionRef} className="relative w-full bg-white">
+    <section
+      ref={sectionRef}
+      className="relative mt-[238px] w-full bg-white pt-[80px] pb-[81px]"
+    >
       <div className="mx-auto w-full max-w-[1440px]">
-        {/* Lime card — Figma 14:8399 at (108,80), 1224×561. */}
+        {/* Lime card — Figma 14:8399 centered in the 1440×722 frame, 1224×561. */}
         <div
           data-cta
-          className="relative mx-auto mt-[197px] h-[561px] w-[1224px] overflow-hidden rounded-[3px] bg-[#cbfc58]"
+          className="relative mx-auto h-[561px] w-[1224px] overflow-hidden rounded-[3px] bg-[#cbfc58]"
         >
-          {/* Decorative vector blob — Figma 14:8400. */}
-          <img
-            src={vector}
-            alt=""
-            className="pointer-events-none absolute bottom-[-50%] left-1/2 w-[565px] -translate-x-1/2"
-          />
+          {/* Decorative vector blob — Figma 14:8400: 565² at top 56.51% / bottom -57.22%. */}
+          <div className="pointer-events-none absolute bottom-[-57.22%] left-[calc(50%+0.5px)] top-[56.51%] w-[565px] -translate-x-1/2">
+            <img src={vector} alt="" className="absolute inset-0 size-full max-w-none" />
+          </div>
 
           {/* Content block — Figma 14:8401 at center. */}
           <div className="absolute left-1/2 top-1/2 flex w-[818px] -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-[56px] text-center">
             <div className="flex flex-col items-center gap-[24px]">
               <h2
                 data-reveal-cta
-                className="font-recoleta text-[64px] leading-[1.25] tracking-[-2.5px] text-[#191c19]"
+                className="whitespace-nowrap font-recoleta text-[64px] leading-[1.25] tracking-[-2.5px] text-black"
               >
                 Take Control of Your Cash Flow
               </h2>
@@ -77,11 +78,17 @@ export default function CTA() {
               className="group flex h-[56px] items-center gap-[16px] rounded-[44px] border border-[#c9cccf] bg-[#0a0d0b] pl-[20px] pr-[8px] text-white transition hover:bg-black"
             >
               <span className="font-satoshi text-[16px] leading-[1.6] tracking-[-0.5px]">Get Started</span>
-              <span className="flex size-[40px] items-center justify-center rounded-[24px] border border-black bg-white/20">
+              <span
+                className="flex size-[40px] items-center justify-center rounded-[24px] border border-black"
+                style={{
+                  backgroundImage:
+                    'linear-gradient(180deg, rgba(242, 242, 242, 0.2) 33.75%, rgba(215, 215, 215, 0.2) 100%), linear-gradient(90deg, #fff 0%, #fff 100%)',
+                }}
+              >
                 <img
                   src={elements}
                   alt=""
-                  className="size-[24px] -scale-x-100 -rotate-90 transition group-hover:translate-x-[1px]"
+                  className="h-[16px] w-[10px] -scale-x-100 -rotate-90 transition group-hover:translate-x-[1px]"
                 />
               </span>
             </a>
