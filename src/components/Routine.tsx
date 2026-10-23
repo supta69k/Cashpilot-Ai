@@ -63,23 +63,40 @@ export default function Routine() {
         scrollTrigger: { trigger: '[data-head]', start: 'top 80%', once: true },
       })
 
-      // Stacked step cards on small screens.
-      gsap.set('[data-step]', { autoAlpha: 0, y: 32 })
-      gsap.to('[data-step]', {
-        autoAlpha: 1,
-        y: 0,
-        duration: 0.7,
-        stagger: 0.12,
-        ease: 'power3.out',
-        scrollTrigger: { trigger: '[data-steps]', start: 'top 82%', once: true },
+      const mm = gsap.matchMedia()
+
+      // Mobile/tablet: pinned deck peel — same visual effect as the desktop deck.
+      mm.add('(max-width: 1279px)', () => {
+        const cards = gsap.utils.toArray<HTMLElement>('[data-mobile-deck] [data-step]')
+        if (cards.length !== 3) return
+
+        const tl = gsap.timeline({
+          defaults: { ease: 'power2.inOut' },
+          scrollTrigger: {
+            trigger: '[data-mobile-deck]',
+            start: 'top 16%',
+            end: '+=1200',
+            scrub: 1,
+            pin: '[data-mobile-deck]',
+            pinSpacing: true,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+          },
+        })
+
+        // 01 peels up, 02 and 03 shift up one slot.
+        tl.to(cards[0], { yPercent: -105, duration: 1 }, 0)
+          .to(cards[1], { y: -14, duration: 1 }, 0)
+          .to(cards[2], { y: -14, duration: 1 }, 0)
+
+        // 02 peels up, 03 takes the front slot.
+        tl.to({}, { duration: 0.3 })
+        tl.to(cards[1], { yPercent: -105, duration: 1 })
+          .to(cards[2], { y: -28, duration: 1 }, '<')
       })
 
-      // The pinned deck only exists from 1280px up; below that the cards are
-      // stacked, so the pin and peel are never built there.
-      const mm = gsap.matchMedia()
+      // Desktop: the pinned deck with rich card illustrations.
       mm.add('(min-width: 1280px)', () => {
-        // The three routine cards form a deck: cards 02 and 03 peek out from under
-        // card 01 in Figma. Scrolling peels the deck one card at a time.
         const cards = gsap.utils.toArray<HTMLElement>('[data-deck] [data-card]')
         if (cards.length !== 3) return
 
@@ -134,44 +151,51 @@ export default function Routine() {
           </h2>
         </div>
 
-        {/* Stacked steps — phones and tablets. */}
-        <div
-          data-steps
-          className="mx-auto mt-10 flex max-w-[520px] flex-col gap-5 px-5 sm:mt-14 xl:hidden"
-        >
-          {STEPS.map((step) => (
-            <div
-              key={step.number}
-              data-step
-              className="relative overflow-hidden rounded-[16px] border-4 px-6 py-7 sm:px-8"
-              style={{ backgroundColor: step.background, borderColor: step.border }}
-            >
-              <span
-                className="block font-recoleta text-[42px] font-medium leading-none tracking-[-1px]"
-                style={{ color: step.color }}
+        {/* Stacked deck — phones and tablets with pin + peel scroll animation. */}
+        <div className="mx-auto mt-10 max-w-[520px] px-5 sm:mt-14 xl:hidden">
+          <div
+            data-mobile-deck
+            className="relative h-[378px] w-full overflow-hidden sm:h-[308px]"
+          >
+            {STEPS.map((step, i) => (
+              <div
+                key={step.number}
+                data-step
+                className="absolute left-0 h-[350px] w-full overflow-hidden rounded-[16px] border-4 px-6 py-6 sm:h-[280px] sm:px-8 sm:py-7"
+                style={{
+                  backgroundColor: step.background,
+                  borderColor: step.border,
+                  top: i * 14,
+                  zIndex: 30 - i * 10,
+                }}
               >
-                {step.number}
-              </span>
-              <h3
-                className="mt-3 font-recoleta text-[27px] font-medium leading-[1.2] tracking-[-0.5px] sm:text-[32px]"
-                style={{ color: step.color }}
-              >
-                {step.title}
-              </h3>
-              <ol className="mt-5 flex flex-col gap-3">
-                {step.items.map((item, i) => (
-                  <li
-                    key={item}
-                    className="flex gap-[10px] font-satoshi text-[15px] leading-[1.5]"
-                    style={{ color: step.muted }}
-                  >
-                    <span className="shrink-0 opacity-60">{`0${i + 1}.`}</span>
-                    {item}
-                  </li>
-                ))}
-              </ol>
-            </div>
-          ))}
+                <span
+                  className="block font-recoleta text-[42px] font-medium leading-none tracking-[-1px]"
+                  style={{ color: step.color }}
+                >
+                  {step.number}
+                </span>
+                <h3
+                  className="mt-3 font-recoleta text-[27px] font-medium leading-[1.2] tracking-[-0.5px] sm:text-[32px]"
+                  style={{ color: step.color }}
+                >
+                  {step.title}
+                </h3>
+                <ol className="mt-5 flex flex-col gap-3">
+                  {step.items.map((item, j) => (
+                    <li
+                      key={item}
+                      className="flex gap-[10px] font-satoshi text-[15px] leading-[1.5]"
+                      style={{ color: step.muted }}
+                    >
+                      <span className="shrink-0 opacity-60">{`0${j + 1}.`}</span>
+                      {item}
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Deck — Figma 47:240 at frame (0,238), 1246×736. Centred until the frame

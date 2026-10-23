@@ -43,13 +43,32 @@ export default function FeatureWays() {
         ease: 'power3.out',
       })
 
-      gsap.to('[data-card]', {
-        autoAlpha: 1,
-        y: 0,
-        duration: 1,
-        stagger: 0.14,
-        ease: 'power3.out',
-        scrollTrigger: { trigger: '[data-cards]', start: 'top 82%', once: true },
+      const mm = gsap.matchMedia()
+
+      // Desktop: all 3 cards are side-by-side, so stagger them off one trigger.
+      mm.add('(min-width: 1024px)', () => {
+        gsap.to('[data-card]', {
+          autoAlpha: 1,
+          y: 0,
+          duration: 1,
+          stagger: 0.14,
+          ease: 'power3.out',
+          scrollTrigger: { trigger: '[data-cards]', start: 'top 82%', once: true },
+        })
+      })
+
+      // Mobile/tablet: cards are stacked vertically, so each card gets its own
+      // ScrollTrigger so it animates in when *it* enters the viewport.
+      mm.add('(max-width: 1023px)', () => {
+        gsap.utils.toArray<HTMLElement>('[data-card]').forEach((card) => {
+          gsap.to(card, {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.8,
+            ease: 'power3.out',
+            scrollTrigger: { trigger: card, start: 'top 88%', once: true },
+          })
+        })
       })
 
       gsap.to('[data-bar]', {

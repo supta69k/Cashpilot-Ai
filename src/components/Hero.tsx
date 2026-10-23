@@ -53,7 +53,7 @@ export default function Hero() {
   return (
     <section ref={sectionRef} className="relative w-full bg-[#f7f6f4]">
       {/* Inset rounded image card — Figma: 1413×964 at page (14,13), so 14px left / 13px right+top. */}
-      <div className="relative ml-[14px] mr-[13px] mt-[13px] h-[700px] overflow-hidden rounded-2xl sm:h-[760px] lg:h-[964px]">
+      <div className="relative ml-[14px] mr-[13px] mt-[13px] h-[720px] overflow-hidden rounded-2xl sm:h-[780px] lg:h-[964px]">
         <img
           src="/hero-bg.webp"
           srcSet="/hero-bg-960.webp 960w, /hero-bg.webp 1536w"
@@ -160,7 +160,7 @@ export default function Hero() {
         )}
 
         {/* Hero content — headline top at y=211 inside the card (Figma 14:7970 at y=155 + 56). */}
-        <div className="relative z-10 flex flex-col items-center px-5 pt-[124px] sm:pt-[168px] lg:px-0 lg:pt-[211px]">
+        <div className="relative z-10 flex flex-col items-center px-5 pt-[100px] sm:pt-[150px] lg:px-0 lg:pt-[211px]">
           <h1
             ref={headlineRef}
             className="max-w-[658px] text-center font-recoleta text-[clamp(30px,8vw,66px)] font-medium leading-[1.08] text-white"
@@ -205,14 +205,21 @@ export default function Hero() {
           </p>
         </div>
 
-        {/* Dashboard mockup — Figma: 1200×676 at (107,628); the card clips it at 964,
-            so only the top 336px of the mockup is visible. */}
-        <div className="absolute inset-x-0 top-[520px] z-20 sm:top-[560px] lg:top-[628px]">
-          <div className="mx-auto w-[1200px] max-w-[calc(100%-32px)]">
+        {/* Dashboard mockup — responsive native preview on mobile, exact 1200px Figma layout on desktop */}
+        <div className="absolute inset-x-0 top-[480px] z-20 sm:top-[530px] lg:top-[628px]">
+          <div className="mx-auto w-full max-w-[calc(100%-24px)] sm:max-w-[calc(100%-32px)] lg:w-[1200px] lg:max-w-none">
             <div ref={dashboardRef}>
-              <FitScale width={1200} height={676} minScale={0.5}>
-                <Dashboard />
-              </FitScale>
+              {/* Desktop view (>= 1024px): Uses FitScale for exact 1200px Figma layout */}
+              <div className="hidden lg:block">
+                <FitScale width={1200} height={676}>
+                  <Dashboard />
+                </FitScale>
+              </div>
+
+              {/* Mobile / Tablet view (< 1024px): Fully responsive native dashboard that fits 100% of the screen */}
+              <div className="block lg:hidden">
+                <Dashboard isMobile />
+              </div>
             </div>
           </div>
         </div>

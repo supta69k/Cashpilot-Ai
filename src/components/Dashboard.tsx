@@ -31,7 +31,100 @@ const SUMMARY = [
   { label: 'Active financial alerts', value: '4 · Prioritized for you' },
 ]
 
-export default function Dashboard() {
+export default function Dashboard({ isMobile = false }: { isMobile?: boolean }) {
+  if (isMobile) {
+    return (
+      <div className="dashboard-mockup relative w-full rounded-xl sm:rounded-2xl border border-[#e8eae3] bg-white shadow-[0px_20px_60px_0px_rgba(36,50,33,0.08)] overflow-hidden">
+        {/* Browser chrome */}
+        <div className="flex items-center h-8 sm:h-9 bg-[#f3f5ef] px-3 sm:px-4 relative">
+          <img src={windowControls} alt="" className="h-[6px] sm:h-[7px] w-[26px] sm:w-[31px]" />
+          <span className="absolute left-1/2 -translate-x-1/2 font-satoshi text-[9px] sm:text-[10px] text-[#73776f] leading-[1.5]">
+            app.cashpilot.ai / overview
+          </span>
+          <img src={lockKeyhole} alt="" className="absolute right-3 h-2.5 w-2.5 sm:h-3 sm:w-3" />
+        </div>
+
+        {/* Dashboard content */}
+        <div className="bg-[#fcfdfb] p-3 sm:p-5">
+          {/* Top brand & assistant row */}
+          <div className="flex items-center justify-between pb-2 mb-2 border-b border-[#e8eae3]/60">
+            <div className="flex items-center gap-1.5">
+              <img src={objectLogo} alt="CashPilot" className="h-[12px] w-[18px] object-contain" />
+              <span className="font-satoshi font-medium text-[12px] sm:text-[14px] text-[#191c19]">
+                CashPilot AI
+              </span>
+              <span className="text-[10px] text-[#73776f] hidden sm:inline">· Rahman Trading</span>
+            </div>
+            <div className="flex items-center gap-1 h-[26px] sm:h-[30px] rounded-[6px] bg-[#cbfc58] px-2 sm:px-2.5">
+              <img src={sparkles1} alt="" className="size-3 sm:size-3.5" />
+              <span className="font-satoshi font-medium text-[10px] sm:text-[11px] text-[#191c19]">
+                Ask CashPilot
+              </span>
+            </div>
+          </div>
+
+          {/* Heading */}
+          <div>
+            <h2 className="font-recoleta text-[17px] sm:text-[22px] text-[#191c19] leading-tight">
+              Your cash, at a glance
+            </h2>
+            <p className="font-satoshi text-[10px] sm:text-[11px] text-[#73776f] leading-[1.4] mt-0.5">
+              Monday, 1 June 2026 · Illustrative workspace
+            </p>
+          </div>
+
+          {/* Metrics: 3-column clean segmented grid */}
+          <div className="grid grid-cols-3 mt-3 border border-[#e8eae3] rounded-[8px] sm:rounded-[10px] overflow-hidden bg-white divide-x divide-[#e8eae3]">
+            {METRICS.map((m, i) => (
+              <div key={m.label} className="p-2 sm:p-3 bg-white flex flex-col justify-between">
+                <p className="font-satoshi text-[9px] sm:text-[11px] text-[#73776f] leading-[1.3] truncate">
+                  {m.label}
+                </p>
+                <div className="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-1.5 mt-1 sm:mt-1.5">
+                  <span
+                    className={`font-satoshi ${
+                      i === 0 ? 'font-normal' : 'font-medium'
+                    } text-[14px] sm:text-[20px] text-[#191c19] leading-tight`}
+                  >
+                    {m.value}
+                  </span>
+                  <span
+                    className={`inline-flex items-center justify-center w-fit px-1 py-0.5 rounded-[4px] text-[7.5px] sm:text-[9px] font-satoshi ${
+                      m.positive
+                        ? 'bg-[rgba(83,163,72,0.2)] border-[0.6px] border-[#87cd5a] text-[#87cd5a]'
+                        : 'bg-[rgba(217,116,84,0.2)] border-[0.6px] border-[#fd805f] text-[#fd805f]'
+                    }`}
+                  >
+                    {m.pct}
+                  </span>
+                </div>
+                <p className="font-satoshi text-[8px] sm:text-[9.5px] text-[#73776f] leading-[1.3] mt-1 sm:mt-2 truncate">
+                  {m.sub}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {/* 30-day forecast preview */}
+          <div className="mt-3 bg-white border border-[#e8eae3] rounded-[8px] sm:rounded-[10px] p-2.5 sm:p-3.5">
+            <div className="flex items-center justify-between">
+              <p className="font-satoshi text-[11px] sm:text-[13px] text-[#191c19] leading-[1.4] font-medium">
+                30-day cash-flow forecast
+              </p>
+              <span className="inline-flex items-center h-[20px] sm:h-[24px] rounded-md bg-[#f3f5ef] px-1.5 sm:px-2 font-satoshi font-medium text-[9px] sm:text-[10px] text-[#73776f]">
+                June 2026
+              </span>
+            </div>
+            <div className="flex gap-3 font-satoshi text-[9px] sm:text-[10px] leading-[1.4] mt-1.5">
+              <span className="text-[#53a348]">● Projected balance</span>
+              <span className="text-[#73776f]">- - Reserve $810.04</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="dashboard-mockup relative w-full rounded-2xl border border-[#e8eae3] bg-white shadow-[0px_20px_60px_0px_rgba(36,50,33,0.08)] overflow-hidden">
       {/* Browser chrome */}

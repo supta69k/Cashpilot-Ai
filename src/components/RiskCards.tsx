@@ -33,26 +33,21 @@ export default function RiskCards() {
         scrollTrigger: { trigger: '[data-head]', start: 'top 82%', once: true },
       })
 
-      // Pinned horizontal scrub only where the viewport can hold the track
-      // comfortably; on phones and tablets the track is a native swipe carousel.
-      const mm = gsap.matchMedia()
-      mm.add('(min-width: 1024px)', () => {
-        // The track is 2010px wide; travel is however much it overhangs the
-        // viewport, plus a little breathing room at the end.
-        gsap.to(trackRef.current, {
-          x: () => -Math.max(0, (trackRef.current?.scrollWidth ?? 0) - window.innerWidth + 60),
-          ease: 'none',
-          scrollTrigger: {
-            trigger: '[data-track-wrap]',
-            start: 'top 12%',
-            end: '+=1600',
-            scrub: 1,
-            pin: '[data-track-wrap]',
-            pinSpacing: true,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
-          },
-        })
+      // Pinned horizontal scrub — works on all screen sizes.
+      // The track width minus the viewport gives horizontal travel distance.
+      gsap.to(trackRef.current, {
+        x: () => -Math.max(0, (trackRef.current?.scrollWidth ?? 0) - window.innerWidth + 60),
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '[data-track-wrap]',
+          start: 'top 12%',
+          end: '+=1600',
+          scrub: 1,
+          pin: '[data-track-wrap]',
+          pinSpacing: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+        },
       })
     }, sectionRef)
 
@@ -86,7 +81,7 @@ export default function RiskCards() {
         {/* Horizontal track — Figma 14:8319 at (0,238), 2010×518. */}
         <div
           data-track-wrap
-          className="no-scrollbar relative mt-[44px] h-[360px] snap-x snap-mandatory overflow-x-auto overflow-y-hidden sm:h-[430px] lg:mt-[73px] lg:h-[518px] lg:snap-none lg:overflow-hidden"
+          className="relative mt-[44px] h-[360px] overflow-hidden sm:h-[430px] lg:mt-[73px] lg:h-[518px]"
         >
           <div
             ref={trackRef}
@@ -95,7 +90,8 @@ export default function RiskCards() {
             {CARDS.map((card) => (
               <div
                 key={card.label}
-                className="relative h-[360px] w-[280px] shrink-0 snap-center overflow-hidden rounded-[3px] sm:h-[430px] sm:w-[340px] lg:h-[518px] lg:w-[480px]"
+                data-risk-card
+                className="relative h-[360px] w-[280px] shrink-0 overflow-hidden rounded-[3px] sm:h-[430px] sm:w-[340px] lg:h-[518px] lg:w-[480px]"
               >
                 <img
                   src={card.src}
