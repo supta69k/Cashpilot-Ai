@@ -33,10 +33,18 @@ export default function RiskCards() {
         scrollTrigger: { trigger: '[data-head]', start: 'top 82%', once: true },
       })
 
-      // Pinned horizontal scrub — works on all screen sizes.
-      // The track width minus the viewport gives horizontal travel distance.
+      // Pinned horizontal scrub — works on all screen sizes (laptops, big monitors, mobile).
+      // Uses the actual container width (wrap.clientWidth) rather than window.innerWidth,
+      // so Card 4 always fully reveals even on 1920px+ large displays before unpinning.
       gsap.to(trackRef.current, {
-        x: () => -Math.max(0, (trackRef.current?.scrollWidth ?? 0) - window.innerWidth + 60),
+        x: () => {
+          const track = trackRef.current
+          if (!track) return 0
+          const wrap = track.parentElement || track
+          const trackWidth = track.scrollWidth
+          const wrapWidth = wrap.clientWidth
+          return -Math.max(0, trackWidth - wrapWidth + 80)
+        },
         ease: 'none',
         scrollTrigger: {
           trigger: '[data-track-wrap]',

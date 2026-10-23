@@ -13,17 +13,18 @@ const UTILITIES = ['Features', 'Pricing', 'Affiliate Program', 'Press Kit']
 export default function Footer() {
   return (
     <footer className="relative w-full overflow-hidden bg-[#f7f6f4] pt-[110px] sm:pt-[150px] lg:pt-[197px]">
-      {/* Footer image strip — Figma 73:106 pinned to the page bottom, 1440×212.
-          The artwork sits in a 1595×894 box (inset -5.4%/-92%) rotated 7.84°,
-          with the object (1514.9×693.85) centred, so only the band shows. */}
+      {/* Footer image strip — pinned to the page bottom.
+          Uses w-[max(1600px,125vw)] and object-cover so the rolling hill artwork fully
+          expands edge-to-edge on wide/big monitors (1920px, 2560px+) with zero white gaps,
+          exactly as it does on laptops. */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[212px] overflow-hidden">
-        <div className="absolute left-1/2 top-[-94.9px] h-[693.85px] w-[1514.9px] -translate-x-1/2 rotate-[7.84deg]">
+        <div className="absolute left-1/2 top-[-95px] h-[720px] w-[max(1600px,125vw)] -translate-x-1/2 rotate-[7.84deg]">
           <img
             src={footerImg}
             alt=""
             loading="lazy"
             decoding="async"
-            className="absolute inset-0 h-[100.3%] w-full max-w-none"
+            className="absolute inset-0 size-full object-cover max-w-none"
           />
         </div>
       </div>
