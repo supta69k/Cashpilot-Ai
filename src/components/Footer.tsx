@@ -13,19 +13,19 @@ const UTILITIES = ['Features', 'Pricing', 'Affiliate Program', 'Press Kit']
 export default function Footer() {
   return (
     <footer className="relative w-full overflow-hidden bg-[#f7f6f4] pt-[110px] sm:pt-[150px] lg:pt-[197px]">
-      {/* Footer image strip — pinned to the page bottom.
-          Uses w-[max(1600px,125vw)] and object-cover so the rolling hill artwork fully
-          expands edge-to-edge on wide/big monitors (1920px, 2560px+) with zero white gaps.
-          Positioned lower (top-[25px]) so the top grassy crest remains completely smooth,
-          organic, and uncut on all displays. */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[220px] overflow-hidden">
-        <div className="absolute left-1/2 top-[25px] h-[720px] w-[max(1600px,125vw)] -translate-x-1/2 rotate-[7.84deg]">
+      {/* Footer image strip — Figma 73:106 pinned to the page bottom, 1440×212.
+          Uses w-[max(1515px,108vw)] and aspect-[1515/694] with proportional -translate-y-[12.8%]
+          to match the exact Figma composition. The rolling hill mounds are prominent and tall
+          with the highest crest sitting cleanly ~14px–18px below the container top, so the
+          edges stay 100% smooth, natural, and uncut across both laptop and large monitor views. */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[212px] overflow-hidden">
+        <div className="absolute left-1/2 top-0 aspect-[1515/694] w-[max(1515px,108vw)] -translate-x-1/2 -translate-y-[12.8%] rotate-[7.84deg]">
           <img
             src={footerImg}
             alt=""
             loading="lazy"
             decoding="async"
-            className="absolute inset-0 size-full object-cover max-w-none"
+            className="size-full max-w-none"
           />
         </div>
       </div>
