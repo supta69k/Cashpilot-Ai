@@ -48,8 +48,12 @@ export default function CTA() {
           data-cta
           className="relative mx-auto w-[calc(100%-24px)] max-w-[1224px] overflow-hidden rounded-[3px] bg-[#cbfc58] px-5 py-14 sm:px-8 sm:py-20 lg:h-[561px] lg:w-[1224px] lg:px-0 lg:py-0"
         >
-          {/* Decorative vector blob — Figma 14:8400: 565² at top 56.51% / bottom -57.22%. */}
-          <div className="pointer-events-none absolute bottom-[-57.22%] left-[calc(50%+0.5px)] top-[56.51%] w-[565px] -translate-x-1/2">
+          {/* Decorative vector blob — Figma 14:8400: 565² at top 56.51% / bottom -57.22%.
+              The top/bottom anchors set the height relative to the card, and aspect-square
+              derives the width from it, so the flower keeps its true shape and scales with
+              the card on every device (desktop resolves to the same 565×565). The SVG is
+              square with preserveAspectRatio="none", so a non-square box would flatten it. */}
+          <div className="pointer-events-none absolute bottom-[-57.22%] left-[calc(50%+0.5px)] top-[56.51%] aspect-square -translate-x-1/2">
             <img src={vector} alt="" className="absolute inset-0 size-full max-w-none" />
           </div>
 

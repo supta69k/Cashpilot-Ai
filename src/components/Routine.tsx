@@ -155,13 +155,13 @@ export default function Routine() {
         <div className="mx-auto mt-10 max-w-[520px] px-5 sm:mt-14 xl:hidden">
           <div
             data-mobile-deck
-            className="relative h-[378px] w-full overflow-hidden sm:h-[308px]"
+            className="relative h-[388px] w-full overflow-hidden sm:h-[308px]"
           >
             {STEPS.map((step, i) => (
               <div
                 key={step.number}
                 data-step
-                className="absolute left-0 h-[350px] w-full overflow-hidden rounded-[16px] border-4 px-6 py-6 sm:h-[280px] sm:px-8 sm:py-7"
+                className="absolute left-0 h-[360px] w-full overflow-hidden rounded-[16px] border-4 px-6 py-6 sm:h-[280px] sm:px-8 sm:py-7"
                 style={{
                   backgroundColor: step.background,
                   borderColor: step.border,

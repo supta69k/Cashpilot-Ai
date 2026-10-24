@@ -52,8 +52,12 @@ export default function Hero() {
 
   return (
     <section ref={sectionRef} className="relative w-full bg-[#f7f6f4]">
-      {/* Inset rounded image card — Figma: 1413×964 at page (14,13), so 14px left / 13px right+top. */}
-      <div className="relative ml-[14px] mr-[13px] mt-[13px] h-[720px] overflow-hidden rounded-2xl sm:h-[780px] lg:h-[964px]">
+      {/* Inset rounded image card — Figma: 1413×964 at page (14,13), so 14px left / 13px right+top.
+          Below lg the card keeps a fixed height so the in-flow dashboard mock bleeds past the
+          bottom edge and is cropped by overflow-hidden — about half visible, like the desktop
+          composition (desktop shows 336 of 676px). Flow placement guarantees the mock never
+          collides with the tagline on narrow screens; it just clips more. */}
+      <div className="relative ml-[14px] mr-[13px] mt-[13px] h-[672px] overflow-hidden rounded-2xl sm:h-[688px] lg:h-[964px]">
         <img
           src="/hero-bg.webp"
           srcSet="/hero-bg-960.webp 960w, /hero-bg.webp 1536w"
@@ -205,9 +209,10 @@ export default function Hero() {
           </p>
         </div>
 
-        {/* Dashboard mockup — responsive native preview on mobile, exact 1200px Figma layout on desktop */}
-        <div className="absolute inset-x-0 top-[480px] z-20 sm:top-[530px] lg:top-[628px]">
-          <div className="mx-auto w-full max-w-[calc(100%-24px)] sm:max-w-[calc(100%-32px)] lg:w-[1200px] lg:max-w-none">
+        {/* Dashboard mockup — responsive native preview on mobile (in flow, after the
+            copy), exact 1200px Figma layout absolutely placed on desktop */}
+        <div className="relative z-20 mt-9 lg:absolute lg:inset-x-0 lg:top-[628px] lg:mt-0">
+          <div className="mx-auto w-full max-w-[calc(100%-24px)] sm:max-w-[calc(100%-32px)] lg:max-w-[min(1200px,calc(100%-32px))]">
             <div ref={dashboardRef}>
               {/* Desktop view (>= 1024px): Uses FitScale for exact 1200px Figma layout */}
               <div className="hidden lg:block">
