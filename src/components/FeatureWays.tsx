@@ -28,9 +28,6 @@ export default function FeatureWays() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.set('[data-reveal-head]', { autoAlpha: 0, y: 28 })
-      gsap.set('[data-card]', { autoAlpha: 0, y: 56 })
-      gsap.set('[data-bar]', { scaleY: 0, transformOrigin: 'bottom center' })
-      gsap.set('[data-phone]', { autoAlpha: 0, y: 40 })
 
       const headTl = gsap.timeline({
         scrollTrigger: { trigger: '[data-head]', start: 'top 80%', once: true },
@@ -45,22 +42,49 @@ export default function FeatureWays() {
 
       const mm = gsap.matchMedia()
 
-      // Desktop: all 3 cards are side-by-side, so stagger them off one trigger.
+      // Desktop (>= 1024px): all 3 cards sit side-by-side in the staggered Figma canvas.
       mm.add('(min-width: 1024px)', () => {
-        gsap.to('[data-card]', {
+        gsap.set('[data-cards-desktop] [data-card]', { autoAlpha: 0, y: 56 })
+        gsap.set('[data-cards-desktop] [data-bar]', { scaleY: 0, transformOrigin: 'bottom center' })
+        gsap.set('[data-cards-desktop] [data-phone]', { autoAlpha: 0, y: 40 })
+
+        gsap.to('[data-cards-desktop] [data-card]', {
           autoAlpha: 1,
           y: 0,
           duration: 1,
           stagger: 0.14,
           ease: 'power3.out',
-          scrollTrigger: { trigger: '[data-cards]', start: 'top 82%', once: true },
+          scrollTrigger: { trigger: '[data-cards-desktop]', start: 'top 82%', once: true },
+        })
+
+        gsap.to('[data-cards-desktop] [data-bar]', {
+          scaleY: 1,
+          duration: 1,
+          stagger: 0.07,
+          ease: 'power3.out',
+          scrollTrigger: { trigger: '[data-cards-desktop]', start: 'top 78%', once: true },
+          delay: 0.35,
+        })
+
+        gsap.to('[data-cards-desktop] [data-phone]', {
+          autoAlpha: 1,
+          y: 0,
+          duration: 1.1,
+          ease: 'power3.out',
+          scrollTrigger: { trigger: '[data-cards-desktop]', start: 'top 78%', once: true },
+          delay: 0.3,
         })
       })
 
-      // Mobile/tablet: cards are stacked vertically, so each card gets its own
-      // ScrollTrigger so it animates in when *it* enters the viewport.
+      // Mobile/tablet (< 1024px): cards stack vertically / 2-col grid, so each card and its
+      // internal illustration triggers when that specific card enters the viewport.
       mm.add('(max-width: 1023px)', () => {
-        gsap.utils.toArray<HTMLElement>('[data-card]').forEach((card) => {
+        const mobileCards = gsap.utils.toArray<HTMLElement>('[data-cards-mobile] [data-card]')
+        gsap.set(mobileCards, { autoAlpha: 0, y: 44 })
+        gsap.set('[data-cards-mobile] [data-bar]', { scaleY: 0, transformOrigin: 'bottom center' })
+        gsap.set('[data-cards-mobile] [data-phone]', { autoAlpha: 0, y: 36 })
+
+        mobileCards.forEach((card) => {
           gsap.to(card, {
             autoAlpha: 1,
             y: 0,
@@ -69,24 +93,28 @@ export default function FeatureWays() {
             scrollTrigger: { trigger: card, start: 'top 88%', once: true },
           })
         })
-      })
 
-      gsap.to('[data-bar]', {
-        scaleY: 1,
-        duration: 1,
-        stagger: 0.07,
-        ease: 'power3.out',
-        scrollTrigger: { trigger: '[data-cards]', start: 'top 78%', once: true },
-        delay: 0.35,
-      })
+        if (mobileCards[0]) {
+          gsap.to('[data-cards-mobile] [data-bar]', {
+            scaleY: 1,
+            duration: 0.95,
+            stagger: 0.07,
+            ease: 'power3.out',
+            delay: 0.2,
+            scrollTrigger: { trigger: mobileCards[0], start: 'top 85%', once: true },
+          })
+        }
 
-      gsap.to('[data-phone]', {
-        autoAlpha: 1,
-        y: 0,
-        duration: 1.1,
-        ease: 'power3.out',
-        scrollTrigger: { trigger: '[data-cards]', start: 'top 78%', once: true },
-        delay: 0.3,
+        if (mobileCards[2]) {
+          gsap.to('[data-cards-mobile] [data-phone]', {
+            autoAlpha: 1,
+            y: 0,
+            duration: 1,
+            ease: 'power3.out',
+            delay: 0.2,
+            scrollTrigger: { trigger: mobileCards[2], start: 'top 85%', once: true },
+          })
+        }
       })
     }, sectionRef)
 
@@ -99,17 +127,17 @@ export default function FeatureWays() {
         {/* Heading block — Figma 14:7990 at page (460,1088), 520×156. */}
         <div
           data-head
-          className="mx-auto flex w-[520px] max-w-[calc(100%-40px)] flex-col items-center gap-[21px] pt-[72px] text-center sm:pt-[96px] lg:pt-[111px]"
+          className="mx-auto flex w-[520px] max-w-[calc(100%-32px)] flex-col items-center gap-[18px] pt-[72px] text-center sm:max-w-[calc(100%-40px)] sm:gap-[21px] sm:pt-[96px] lg:pt-[111px]"
         >
           <p
             data-reveal-head
-            className="w-full font-satoshi text-[18px] leading-[1.5] tracking-[-0.27px] text-[#4c4e4a]"
+            className="w-full font-satoshi text-[15px] leading-[1.5] tracking-[-0.27px] text-[#4c4e4a] sm:text-[18px]"
           >
             ONE AGENT. THREE WAYS IN.
           </p>
           <h2
             data-reveal-head
-            className="w-full font-satoshi text-[clamp(30px,5vw,46px)] leading-[1.18] tracking-[-2px] text-[#191c19]"
+            className="w-full font-satoshi text-[clamp(28px,5vw,46px)] leading-[1.18] tracking-[-0.043em] text-[#191c19]"
           >
             Same financial picture.
             <br />
@@ -117,26 +145,48 @@ export default function FeatureWays() {
           </h2>
         </div>
 
-        {/* Three staggered cards — Figma 14:7996 at page (98,1363), 1236×599. */}
+        {/* Mobile / Tablet cards (< 1024px): 1-col stack on phones, matched-scale 2-col grid on tablets */}
         <div
-          data-cards
-          className="relative mt-[56px] flex w-full flex-col items-center gap-6 px-5 sm:mt-[80px] sm:grid sm:grid-cols-2 sm:justify-items-center lg:mt-[119px] lg:ml-[98px] lg:block lg:h-[599px] lg:w-[1236px] lg:px-0"
+          data-cards-mobile
+          className="mx-auto mt-[48px] flex w-full max-w-[824px] flex-col items-center gap-6 px-4 sm:mt-[72px] sm:px-6 md:grid md:grid-cols-2 md:justify-items-center lg:hidden"
         >
-          <div data-card className="w-full max-w-[380px] lg:absolute lg:left-0 lg:top-[148px] lg:w-[380px] lg:max-w-none">
+          <div data-card className="w-full max-w-[380px]">
             <FitScale width={380} height={451}>
               <GlimpseCard />
             </FitScale>
           </div>
-          <div data-card className="w-full max-w-[380px] lg:absolute lg:left-[428px] lg:top-[70px] lg:w-[380px] lg:max-w-none">
+          <div data-card className="w-full max-w-[380px]">
             <FitScale width={380} height={451}>
               <ChatCard />
             </FitScale>
           </div>
-          <div data-card className="w-full max-w-[380px] sm:col-span-2 lg:absolute lg:left-[856px] lg:top-0 lg:w-[380px] lg:max-w-none">
+          <div data-card className="w-full max-w-[380px] md:col-span-2 md:w-[calc((100%-24px)/2)] md:justify-self-center">
             <FitScale width={380} height={451}>
               <PhoneCard />
             </FitScale>
           </div>
+        </div>
+
+        {/* Desktop staggered cards (>= 1024px) — Figma 14:7996 at page (98,1363), 1236×599.
+            Proportionally scaled on 1024px–1284px laptops so Card 3 never clips off-screen,
+            and 1:1 exact Figma coordinates at 1440px+. */}
+        <div
+          data-cards-desktop
+          className="mx-auto mt-[96px] hidden w-[calc(100%-48px)] max-w-[1236px] lg:block xl:mt-[119px] min-[1440px]:ml-[98px] min-[1440px]:mr-0 min-[1440px]:w-[1236px]"
+        >
+          <FitScale width={1236} height={599}>
+            <div className="relative h-[599px] w-[1236px]">
+              <div data-card className="absolute left-0 top-[148px] w-[380px]">
+                <GlimpseCard />
+              </div>
+              <div data-card className="absolute left-[428px] top-[70px] w-[380px]">
+                <ChatCard />
+              </div>
+              <div data-card className="absolute left-[856px] top-0 w-[380px]">
+                <PhoneCard />
+              </div>
+            </div>
+          </FitScale>
         </div>
       </div>
     </section>

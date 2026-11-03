@@ -38,7 +38,7 @@ export default function Statement() {
     <section ref={sectionRef} className="relative w-full bg-[#f7f6f4]">
       <div
         data-statement
-        className="mx-auto w-[1048px] max-w-[calc(100%-40px)] pt-[140px] text-center font-recoleta text-[clamp(28px,4.6vw,48px)] leading-[1.5] text-black sm:pt-[190px] lg:pt-[267px]"
+        className="mx-auto w-[1048px] max-w-[calc(100%-32px)] pt-[110px] text-center font-recoleta text-[clamp(23px,4.6vw,48px)] leading-[1.5] text-black sm:max-w-[calc(100%-48px)] sm:pt-[180px] lg:pt-[267px]"
       >
         {PARAGRAPHS.map((paragraph) => {
           const words = paragraph.split(' ')

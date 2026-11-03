@@ -34,21 +34,19 @@ export default function RiskCards() {
       })
 
       // Pinned horizontal scrub — works on all screen sizes (laptops, big monitors, mobile).
-      // Uses the actual container width (wrap.clientWidth) rather than window.innerWidth,
-      // so Card 4 always fully reveals even on 1920px+ large displays before unpinning.
+      // Track already includes responsive left/right padding so scrollWidth - wrap.clientWidth
+      // lands Card 4 cleanly inside the right edge on every viewport from 320px to 4K.
       gsap.to(trackRef.current, {
         x: () => {
           const track = trackRef.current
           if (!track) return 0
           const wrap = track.parentElement || track
-          const trackWidth = track.scrollWidth
-          const wrapWidth = wrap.clientWidth
-          return -Math.max(0, trackWidth - wrapWidth + 80)
+          return -Math.max(0, track.scrollWidth - wrap.clientWidth)
         },
         ease: 'none',
         scrollTrigger: {
           trigger: '[data-track-wrap]',
-          start: 'top 12%',
+          start: () => (window.innerHeight < 680 ? 'top 8%' : 'top 12%'),
           end: '+=1600',
           scrub: 1,
           pin: '[data-track-wrap]',
@@ -68,38 +66,44 @@ export default function RiskCards() {
         {/* Heading — Figma 14:8244 at (446,6680), 548×165, centered on 1440. */}
         <div
           data-head
-          className="mx-auto flex w-[548px] max-w-[calc(100%-40px)] flex-col items-center gap-[18px] pt-[140px] text-center sm:gap-[30px] sm:pt-[190px] lg:pt-[284px]"
+          className="mx-auto flex w-[548px] max-w-[calc(100%-32px)] flex-col items-center gap-[18px] pt-[120px] text-center sm:max-w-[calc(100%-40px)] sm:gap-[30px] sm:pt-[180px] lg:pt-[284px]"
         >
           <p
             data-reveal-head
-            className="w-full font-satoshi text-[18px] leading-[1.5] tracking-[-0.27px] text-[#4c4e4a]"
+            className="w-full font-satoshi text-[15px] leading-[1.5] tracking-[-0.27px] text-[#4c4e4a] sm:text-[18px]"
           >
             SEE THE RISKS BEFORE THEY GROW
           </p>
           <h2
             data-reveal-head
-            className="w-full font-satoshi text-[clamp(30px,5vw,46px)] leading-[1.18] tracking-[-2px] text-[#191c19]"
+            className="w-full font-satoshi text-[clamp(28px,5vw,46px)] leading-[1.18] tracking-[-0.043em] text-[#191c19]"
           >
             Know What Needs Your
             <br />
             Attention
           </h2>
         </div>
+      </div>
 
-        {/* Horizontal track — Figma 14:8319 at (0,238), 2010×518. */}
-        <div
-          data-track-wrap
-          className="relative mt-[44px] h-[360px] overflow-hidden sm:h-[430px] lg:mt-[73px] lg:h-[518px]"
-        >
+      {/* Horizontal track — Figma 14:8319 at (0,238), 2010×518.
+          The pinned wrapper is full-width; the visible window inside it is inset on both sides so
+          the cards slide through a framed viewport, with a soft blur + fade on each edge so cards
+          dissolve smoothly instead of being hard-cut. The track's own side padding equals the fade
+          width, so the first/last card rest fully clear of the blurred zone. */}
+      <div
+        data-track-wrap
+        className="relative mt-[44px] h-[360px] w-full [--fade:24px] [--inset:12px] sm:h-[430px] sm:[--fade:36px] sm:[--inset:20px] lg:mt-[73px] lg:h-[518px] lg:[--fade:64px] lg:[--inset:32px]"
+      >
+        <div className="relative mx-auto h-full w-[calc(100%_-_2*var(--inset))] max-w-[1600px] overflow-hidden rounded-[6px]">
           <div
             ref={trackRef}
-            className="absolute left-0 top-0 flex h-[360px] w-max items-center gap-4 px-5 sm:h-[430px] sm:gap-6 lg:h-[518px] lg:gap-[30px] lg:px-0"
+            className="absolute left-0 top-0 flex h-full w-max items-center gap-4 px-[var(--fade)] sm:gap-6 lg:gap-[30px]"
           >
             {CARDS.map((card) => (
               <div
                 key={card.label}
                 data-risk-card
-                className="relative h-[360px] w-[280px] shrink-0 overflow-hidden rounded-[3px] sm:h-[430px] sm:w-[340px] lg:h-[518px] lg:w-[480px]"
+                className="relative h-[360px] w-[min(280px,calc(100vw_-_2*var(--inset)_-_2*var(--fade)))] shrink-0 overflow-hidden rounded-[3px] sm:h-[430px] sm:w-[340px] lg:h-[518px] lg:w-[480px]"
               >
                 <img
                   src={card.src}
@@ -128,6 +132,28 @@ export default function RiskCards() {
               </div>
             ))}
           </div>
+
+          {/* Soft edge blur + fade — left and right. */}
+          {(['left', 'right'] as const).map((side) => {
+            const dir = side === 'left' ? 'to right' : 'to left'
+            return (
+              <div key={side} aria-hidden className={`pointer-events-none absolute inset-y-0 z-10 w-[var(--fade)] ${side === 'left' ? 'left-0' : 'right-0'}`}>
+                <div
+                  className="absolute inset-0 backdrop-blur-[10px]"
+                  style={{
+                    WebkitMaskImage: `linear-gradient(${dir}, #000 0%, rgba(0,0,0,0.6) 50%, transparent 100%)`,
+                    maskImage: `linear-gradient(${dir}, #000 0%, rgba(0,0,0,0.6) 50%, transparent 100%)`,
+                  }}
+                />
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    backgroundImage: `linear-gradient(${dir}, #f7f6f4 0%, rgba(247,246,244,0.75) 35%, rgba(247,246,244,0) 100%)`,
+                  }}
+                />
+              </div>
+            )
+          })}
         </div>
       </div>
     </section>

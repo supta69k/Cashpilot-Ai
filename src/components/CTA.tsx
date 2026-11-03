@@ -46,7 +46,7 @@ export default function CTA() {
         {/* Lime card — Figma 14:8399 centered in the 1440×722 frame, 1224×561. */}
         <div
           data-cta
-          className="relative mx-auto w-[calc(100%-24px)] max-w-[1224px] overflow-hidden rounded-[3px] bg-[#cbfc58] px-5 py-14 sm:px-8 sm:py-20 lg:h-[561px] lg:w-[1224px] lg:px-0 lg:py-0"
+          className="relative mx-auto w-[calc(100%-24px)] max-w-[1224px] overflow-hidden rounded-[3px] bg-[#cbfc58] px-5 py-14 sm:w-[calc(100%-48px)] sm:px-8 sm:py-20 lg:h-[561px] lg:px-0 lg:py-0"
         >
           {/* Decorative vector blob — Figma 14:8400: 565² at top 56.51% / bottom -57.22%.
               The top/bottom anchors set the height relative to the card, and aspect-square
@@ -58,11 +58,11 @@ export default function CTA() {
           </div>
 
           {/* Content block — Figma 14:8401 at center. */}
-          <div className="relative flex flex-col items-center gap-8 text-center lg:absolute lg:left-1/2 lg:top-1/2 lg:w-[818px] lg:-translate-x-1/2 lg:-translate-y-1/2 lg:gap-[56px]">
+          <div className="relative flex flex-col items-center gap-8 text-center lg:absolute lg:left-1/2 lg:top-1/2 lg:w-[calc(100%-80px)] lg:max-w-[818px] lg:-translate-x-1/2 lg:-translate-y-1/2 lg:gap-[56px]">
             <div className="flex flex-col items-center gap-[18px] lg:gap-[24px]">
               <h2
                 data-reveal-cta
-                className="font-recoleta text-[clamp(30px,6.4vw,64px)] leading-[1.15] tracking-[-2.5px] text-black lg:whitespace-nowrap lg:leading-[1.25]"
+                className="font-recoleta text-[clamp(28px,5vw,64px)] leading-[1.15] tracking-[-0.04em] text-black lg:leading-[1.25] xl:whitespace-nowrap"
               >
                 Take Control of Your Cash Flow
               </h2>

@@ -38,26 +38,26 @@ export default function Dashboard({ isMobile = false }: { isMobile?: boolean }) 
         {/* Browser chrome */}
         <div className="flex items-center h-8 sm:h-9 bg-[#f3f5ef] px-3 sm:px-4 relative">
           <img src={windowControls} alt="" className="h-[6px] sm:h-[7px] w-[26px] sm:w-[31px]" />
-          <span className="absolute left-1/2 -translate-x-1/2 font-satoshi text-[9px] sm:text-[10px] text-[#73776f] leading-[1.5]">
+          <span className="absolute left-1/2 -translate-x-1/2 font-satoshi text-[9px] sm:text-[10px] text-[#73776f] leading-[1.5] whitespace-nowrap">
             app.cashpilot.ai / overview
           </span>
           <img src={lockKeyhole} alt="" className="absolute right-3 h-2.5 w-2.5 sm:h-3 sm:w-3" />
         </div>
 
         {/* Dashboard content */}
-        <div className="bg-[#fcfdfb] p-3 sm:p-5">
+        <div className="bg-[#fcfdfb] p-2.5 sm:p-5">
           {/* Top brand & assistant row */}
           <div className="flex items-center justify-between pb-2 mb-2 border-b border-[#e8eae3]/60">
-            <div className="flex items-center gap-1.5">
-              <img src={objectLogo} alt="CashPilot" className="h-[12px] w-[18px] object-contain" />
-              <span className="font-satoshi font-medium text-[12px] sm:text-[14px] text-[#191c19]">
+            <div className="flex items-center gap-1.5 min-w-0">
+              <img src={objectLogo} alt="CashPilot" className="h-[12px] w-[18px] shrink-0 object-contain" />
+              <span className="font-satoshi font-medium text-[12px] sm:text-[14px] text-[#191c19] truncate">
                 CashPilot AI
               </span>
               <span className="text-[10px] text-[#73776f] hidden sm:inline">· Rahman Trading</span>
             </div>
-            <div className="flex items-center gap-1 h-[26px] sm:h-[30px] rounded-[6px] bg-[#cbfc58] px-2 sm:px-2.5">
+            <div className="flex shrink-0 items-center gap-1 h-[26px] sm:h-[30px] rounded-[6px] bg-[#cbfc58] px-2 sm:px-2.5">
               <img src={sparkles1} alt="" className="size-3 sm:size-3.5" />
-              <span className="font-satoshi font-medium text-[10px] sm:text-[11px] text-[#191c19]">
+              <span className="font-satoshi font-medium text-[10px] sm:text-[11px] text-[#191c19] whitespace-nowrap">
                 Ask CashPilot
               </span>
             </div>
@@ -74,22 +74,22 @@ export default function Dashboard({ isMobile = false }: { isMobile?: boolean }) 
           </div>
 
           {/* Metrics: 3-column clean segmented grid */}
-          <div className="grid grid-cols-3 mt-3 border border-[#e8eae3] rounded-[8px] sm:rounded-[10px] overflow-hidden bg-white divide-x divide-[#e8eae3]">
+          <div className="grid grid-cols-3 mt-2.5 sm:mt-3 border border-[#e8eae3] rounded-[8px] sm:rounded-[10px] overflow-hidden bg-white divide-x divide-[#e8eae3]">
             {METRICS.map((m, i) => (
-              <div key={m.label} className="p-2 sm:p-3 bg-white flex flex-col justify-between">
-                <p className="font-satoshi text-[9px] sm:text-[11px] text-[#73776f] leading-[1.3] truncate">
+              <div key={m.label} className="p-1.5 min-[375px]:p-2 sm:p-3 bg-white flex flex-col justify-between min-w-0">
+                <p className="font-satoshi text-[8.5px] min-[375px]:text-[9px] sm:text-[11px] text-[#73776f] leading-[1.3] truncate">
                   {m.label}
                 </p>
                 <div className="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-1.5 mt-1 sm:mt-1.5">
                   <span
                     className={`font-satoshi ${
                       i === 0 ? 'font-normal' : 'font-medium'
-                    } text-[14px] sm:text-[20px] text-[#191c19] leading-tight`}
+                    } text-[12px] min-[375px]:text-[14px] sm:text-[20px] text-[#191c19] leading-tight`}
                   >
                     {m.value}
                   </span>
                   <span
-                    className={`inline-flex items-center justify-center w-fit px-1 py-0.5 rounded-[4px] text-[7.5px] sm:text-[9px] font-satoshi ${
+                    className={`inline-flex items-center justify-center w-fit px-1 py-0.5 rounded-[4px] text-[7px] min-[375px]:text-[7.5px] sm:text-[9px] font-satoshi whitespace-nowrap ${
                       m.positive
                         ? 'bg-[rgba(83,163,72,0.2)] border-[0.6px] border-[#87cd5a] text-[#87cd5a]'
                         : 'bg-[rgba(217,116,84,0.2)] border-[0.6px] border-[#fd805f] text-[#fd805f]'
@@ -105,19 +105,30 @@ export default function Dashboard({ isMobile = false }: { isMobile?: boolean }) 
             ))}
           </div>
 
-          {/* 30-day forecast preview */}
-          <div className="mt-3 bg-white border border-[#e8eae3] rounded-[8px] sm:rounded-[10px] p-2.5 sm:p-3.5">
-            <div className="flex items-center justify-between">
-              <p className="font-satoshi text-[11px] sm:text-[13px] text-[#191c19] leading-[1.4] font-medium">
+          {/* 30-day forecast preview (bleeds cleanly off the hero card bottom edge) */}
+          <div className="mt-2.5 sm:mt-3 bg-white border border-[#e8eae3] rounded-[8px] sm:rounded-[10px] p-2.5 sm:p-3.5">
+            <div className="flex items-center justify-between gap-2">
+              <p className="font-satoshi text-[11px] sm:text-[13px] text-[#191c19] leading-[1.4] font-medium truncate">
                 30-day cash-flow forecast
               </p>
-              <span className="inline-flex items-center h-[20px] sm:h-[24px] rounded-md bg-[#f3f5ef] px-1.5 sm:px-2 font-satoshi font-medium text-[9px] sm:text-[10px] text-[#73776f]">
+              <span className="inline-flex shrink-0 items-center h-[20px] sm:h-[24px] rounded-md bg-[#f3f5ef] px-1.5 sm:px-2 font-satoshi font-medium text-[9px] sm:text-[10px] text-[#73776f]">
                 June 2026
               </span>
             </div>
             <div className="flex gap-3 font-satoshi text-[9px] sm:text-[10px] leading-[1.4] mt-1.5">
               <span className="text-[#53a348]">● Projected balance</span>
               <span className="text-[#73776f]">- - Reserve $810.04</span>
+            </div>
+            <div className="mt-2 flex items-stretch">
+              <div className="flex flex-col justify-between pr-2 font-satoshi text-[8px] sm:text-[9px] text-[#73776f] leading-none shrink-0">
+                <span>4.86k</span>
+                <span>3.24k</span>
+                <span>1.62k</span>
+                <span>0</span>
+              </div>
+              <div className="flex-1 min-w-0">
+                <img src={plotArea} alt="" className="w-full h-[76px] sm:h-[104px] object-fill" />
+              </div>
             </div>
           </div>
         </div>

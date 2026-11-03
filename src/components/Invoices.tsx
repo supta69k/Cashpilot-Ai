@@ -28,7 +28,6 @@ export default function Invoices() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       const rows = gsap.utils.toArray<HTMLElement>('[data-bento-row]')
-      const rowTwo = rows[1]
 
       // Desktop: left cards slide in from the left edge, right cards from the
       // right edge, tied to scroll as each row comes into view. On narrower
@@ -115,15 +114,15 @@ export default function Invoices() {
         )
       })
 
-      // Quote reveals word by word as it scrolls through.
+      // Quote reveals word by word as its tile scrolls through.
       gsap.to('[data-quote-word]', {
         opacity: 1,
         ease: 'none',
         stagger: 0.35,
         scrollTrigger: {
-          trigger: rowTwo,
-          start: 'top 78%',
-          end: 'bottom 62%',
+          trigger: '[data-quote]',
+          start: 'top 80%',
+          end: 'bottom 58%',
           scrub: true,
         },
       })
@@ -133,12 +132,12 @@ export default function Invoices() {
         y: 0,
         duration: 0.8,
         ease: 'power2.out',
-        scrollTrigger: { trigger: rowTwo, start: 'top 52%', once: true },
+        scrollTrigger: { trigger: '[data-quote]', start: 'top 55%', once: true },
       })
 
       // Donut: the lime ring draws itself, the total counts up, the badge pops.
       const donutTl = gsap.timeline({
-        scrollTrigger: { trigger: rowTwo, start: 'top 38%', once: true },
+        scrollTrigger: { trigger: '[data-donut-tile]', start: 'top 76%', once: true },
       })
 
       donutTl
@@ -169,33 +168,33 @@ export default function Invoices() {
 
   return (
     <section ref={sectionRef} className="relative w-full overflow-x-clip bg-[#f7f6f4]">
-      <div className="mx-auto w-[1213px] max-w-[calc(100%-32px)] pt-[110px] sm:pt-[170px] lg:max-w-[calc(100%-64px)] lg:pt-[385px]">
+      <div className="mx-auto w-full max-w-[1213px] px-4 pt-[110px] sm:px-8 sm:pt-[170px] lg:pt-[385px] min-[1277px]:px-0">
         {/* Figma 52:18080 is 1213 wide, but the two rows split it differently:
-            top 593 + 28 + 592, bottom 506 + 28 + 679. A CSS grid would force one
-            column template on both rows, so each row is its own flex line. */}
-        <div data-bento className="flex h-auto flex-col gap-[28px] lg:h-[1046px]">
-          <div data-bento-row className="flex flex-col gap-[28px] lg:h-[509px] lg:flex-row">
+            top 593 + 28 + 592, bottom 506 + 28 + 679. Proportional flex ratios
+            let 1024px–1276px laptops fit cleanly before locking 1:1 at xl+. */}
+        <div data-bento className="flex h-auto flex-col gap-[24px] lg:h-[1046px] lg:gap-[28px]">
+          <div data-bento-row className="flex flex-col gap-[24px] lg:h-[509px] lg:flex-row lg:gap-[28px]">
           {/* Tile 1 — invoices over photography. Figma 14:8247. */}
           <div
             data-tile
-            className="relative aspect-[593/509] w-full overflow-hidden rounded-[3px] lg:aspect-auto lg:h-[509px] lg:w-[593px] lg:shrink-0"
+            className="relative aspect-[593/509] w-full overflow-hidden rounded-[3px] sm:aspect-[16/11] lg:aspect-auto lg:h-[509px] lg:min-w-0 lg:flex-[593] xl:w-[593px] xl:flex-none"
           >
             <div
               data-parallax
-              className="absolute left-0 top-0 h-[635.476px] w-[1399.627px] overflow-hidden rounded-[3px]"
+              className="absolute inset-x-0 -top-[6%] h-[112%] w-full overflow-hidden rounded-[3px] xl:left-0 xl:right-auto xl:top-0 xl:h-[635.476px] xl:w-[1399.627px]"
             >
               <img
                 src={invoiceBg}
                 alt=""
                 loading="lazy"
                 decoding="async"
-                className="absolute left-[-40.83%] top-[-9.36%] h-[103.49%] w-[99.99%] max-w-none"
+                className="size-full object-cover xl:absolute xl:left-[-40.83%] xl:top-[-9.36%] xl:h-[103.49%] xl:w-[99.99%] xl:max-w-none xl:object-fill"
               />
             </div>
             <div className="absolute inset-0 rounded-[3px] bg-black/10" />
 
             {/* Invoice panel — Figma 14:8249, 470×335 centred. */}
-            <div className="absolute inset-0 flex items-center justify-center p-4 lg:p-0">
+            <div className="absolute inset-0 flex items-center justify-center p-4 sm:p-6 xl:p-0">
               <div className="w-[470px] max-w-full">
                 <FitScale width={470} height={335}>
                   <div className="relative h-[335px] w-[470px] overflow-clip rounded-[12px] bg-white">
@@ -280,15 +279,15 @@ export default function Invoices() {
           {/* Tile 2 — copy. Figma 14:8294. */}
           <div
             data-tile
-            className="relative w-full overflow-hidden rounded-[3px] bg-white px-6 py-10 sm:px-10 lg:h-[509px] lg:w-[592px] lg:px-0 lg:py-0"
+            className="relative w-full overflow-hidden rounded-[3px] bg-white px-6 py-10 sm:px-10 lg:flex lg:h-[509px] lg:min-w-0 lg:flex-[592] lg:items-center lg:px-9 lg:py-0 xl:block xl:w-[592px] xl:flex-none xl:px-0"
           >
-            <div className="flex flex-col gap-6 lg:absolute lg:left-[49px] lg:top-1/2 lg:w-[494px] lg:-translate-y-1/2 lg:gap-[38px]">
-              <h3 className="font-recoleta text-[clamp(27px,5vw,36px)] leading-[1.16] text-[#191c19]">
+            <div className="flex flex-col gap-6 lg:gap-[32px] xl:absolute xl:left-[49px] xl:top-1/2 xl:w-[494px] xl:-translate-y-1/2 xl:gap-[38px]">
+              <h3 className="font-recoleta text-[clamp(26px,3vw,36px)] leading-[1.16] text-[#191c19]">
                 Follow up on invoices.
                 <br />
                 Not on spreadsheets.
               </h3>
-              <p className="font-recoleta text-[clamp(20px,4vw,32px)] leading-[1.5] tracking-[-0.8px] text-[#73776f]">
+              <p className="font-recoleta text-[clamp(19px,2.4vw,32px)] leading-[1.5] tracking-[-0.8px] text-[#73776f]">
                 Find an invoice, see who owes you, and prepare the right follow-up. Keep the
                 customer, amount, due date, and payment status together.
               </p>
@@ -298,14 +297,14 @@ export default function Invoices() {
           </div>
 
           {/* Bottom row — 506px quote + 679px donut (different split than top row). */}
-          <div data-bento-row className="flex flex-col gap-[28px] lg:h-[509px] lg:flex-row">
+          <div data-bento-row className="flex flex-col gap-[24px] lg:h-[509px] lg:flex-row lg:gap-[28px]">
           {/* Tile 3 — quote. Figma 14:8298. */}
           <div
             data-quote
             data-tile
-            className="relative w-full overflow-hidden rounded-[3px] bg-[#333] px-6 py-12 text-center sm:px-10 lg:h-[509px] lg:w-[506px] lg:px-0 lg:py-0"
+            className="relative w-full overflow-hidden rounded-[3px] bg-[#333] px-6 py-12 text-center sm:px-10 lg:flex lg:h-[509px] lg:min-w-0 lg:flex-[506] lg:flex-col lg:items-center lg:justify-between lg:px-8 lg:pb-[34px] lg:pt-[110px] xl:block xl:w-[506px] xl:flex-none xl:p-0"
           >
-            <p className="mx-auto w-full max-w-[378px] font-recoleta text-[clamp(26px,6vw,45px)] leading-[1.47] tracking-[-0.2px] text-white lg:absolute lg:left-1/2 lg:top-[123px] lg:w-[378px] lg:-translate-x-1/2">
+            <p className="mx-auto w-full max-w-[378px] font-recoleta text-[clamp(26px,3.2vw,45px)] leading-[1.47] tracking-[-0.2px] text-white xl:absolute xl:left-1/2 xl:top-[123px] xl:w-[378px] xl:-translate-x-1/2">
               {QUOTE.split(' ').map((word, i, all) => (
                 <span key={`${word}-${i}`}>
                   <span data-quote-word className="inline-block">
@@ -317,7 +316,7 @@ export default function Invoices() {
             </p>
             <p
               data-attr
-              className="mt-10 whitespace-nowrap font-recoleta text-[20px] leading-[1.47] tracking-[-0.2px] text-[#bbb4b4] lg:absolute lg:left-1/2 lg:top-[447px] lg:mt-0 lg:-translate-x-1/2 lg:text-[24px]"
+              className="mt-10 whitespace-nowrap font-recoleta text-[20px] leading-[1.47] tracking-[-0.2px] text-[#bbb4b4] lg:mt-0 lg:text-[22px] xl:absolute xl:left-1/2 xl:top-[447px] xl:-translate-x-1/2 xl:text-[24px]"
             >
               – Benjamin Franklin
             </p>
@@ -325,10 +324,11 @@ export default function Invoices() {
 
           {/* Tile 4 — donut over photography. Figma 14:8301. */}
           <div
+            data-donut-tile
             data-tile
-            className="relative w-full overflow-hidden rounded-[3px] py-10 lg:h-[509px] lg:w-[679px] lg:py-0"
+            className="relative w-full overflow-hidden rounded-[3px] py-10 sm:py-12 lg:flex lg:h-[509px] lg:min-w-0 lg:flex-[679] lg:items-center lg:justify-center lg:p-6 xl:block xl:w-[679px] xl:flex-none xl:p-0"
           >
-            <div className="absolute left-[-28px] top-0 h-[586px] w-[899px]">
+            <div className="absolute inset-x-0 -top-[6%] h-[112%] w-full xl:left-[-28px] xl:right-auto xl:top-0 xl:h-[586px] xl:w-[899px]">
               <img
                 data-parallax
                 src={donutBg}
@@ -340,7 +340,7 @@ export default function Invoices() {
             </div>
 
             {/* Chart frame — Figma 14:8303 at (103,102); card sits at +56 inside it. */}
-            <div className="mx-auto w-[352px] max-w-[calc(100%-32px)] lg:absolute lg:left-[159px] lg:top-[102px] lg:mx-0 lg:max-w-none">
+            <div className="relative mx-auto w-[352px] max-w-[calc(100%-32px)] lg:mx-0 lg:max-w-full xl:absolute xl:left-[159px] xl:top-[102px] xl:max-w-none">
               <FitScale width={352} height={360}>
                 <div data-donut className="relative h-[360px] w-[352px]">
               <div className="absolute inset-0 overflow-clip rounded-[24px] bg-white shadow-[inset_0px_-4px_0px_0px_rgba(0,0,0,0.15)]">

@@ -95,7 +95,7 @@ export default function FAQ() {
           </p>
           <h2
             data-reveal-head
-            className="w-full font-recoleta text-[clamp(29px,7vw,60px)] leading-[1.12] tracking-[-2.3px] text-[#191c19]"
+            className="w-full font-recoleta text-[clamp(28px,6.8vw,60px)] leading-[1.12] tracking-[-0.038em] text-[#191c19]"
           >
             Your Questions Answered
           </h2>
