@@ -86,24 +86,23 @@ export default function RiskCards() {
       </div>
 
       {/* Horizontal track — Figma 14:8319 at (0,238), 2010×518.
-          The pinned wrapper is full-width; the visible window inside it is inset on both sides so
-          the cards slide through a framed viewport, with a soft blur + fade on each edge so cards
-          dissolve smoothly instead of being hard-cut. The track's own side padding equals the fade
-          width, so the first/last card rest fully clear of the blurred zone. */}
+          The pinned wrapper is full-width while the visible window inside it is inset on both sides
+          (and capped at 1440px on large monitors), giving clean breathing space on left and right
+          as cards scroll smoothly across the frame. */}
       <div
         data-track-wrap
-        className="relative mt-[44px] h-[360px] w-full [--fade:24px] [--inset:12px] sm:h-[430px] sm:[--fade:36px] sm:[--inset:20px] lg:mt-[73px] lg:h-[518px] lg:[--fade:64px] lg:[--inset:32px]"
+        className="relative mt-[44px] h-[360px] w-full [--inset:16px] sm:h-[430px] sm:[--inset:24px] lg:mt-[73px] lg:h-[518px] lg:[--inset:40px]"
       >
-        <div className="relative mx-auto h-full w-[calc(100%_-_2*var(--inset))] max-w-[1600px] overflow-hidden rounded-[6px]">
+        <div className="relative mx-auto h-full w-[calc(100%_-_2*var(--inset))] max-w-[1440px] overflow-hidden rounded-[4px]">
           <div
             ref={trackRef}
-            className="absolute left-0 top-0 flex h-full w-max items-center gap-4 px-[var(--fade)] sm:gap-6 lg:gap-[30px]"
+            className="absolute left-0 top-0 flex h-full w-max items-center gap-4 sm:gap-6 lg:gap-[30px]"
           >
             {CARDS.map((card) => (
               <div
                 key={card.label}
                 data-risk-card
-                className="relative h-[360px] w-[min(280px,calc(100vw_-_2*var(--inset)_-_2*var(--fade)))] shrink-0 overflow-hidden rounded-[3px] sm:h-[430px] sm:w-[340px] lg:h-[518px] lg:w-[480px]"
+                className="relative h-[360px] w-[min(280px,calc(100vw_-_2*var(--inset)_-_24px))] shrink-0 overflow-hidden rounded-[3px] sm:h-[430px] sm:w-[340px] lg:h-[518px] lg:w-[480px]"
               >
                 <img
                   src={card.src}
@@ -132,28 +131,6 @@ export default function RiskCards() {
               </div>
             ))}
           </div>
-
-          {/* Soft edge blur + fade — left and right. */}
-          {(['left', 'right'] as const).map((side) => {
-            const dir = side === 'left' ? 'to right' : 'to left'
-            return (
-              <div key={side} aria-hidden className={`pointer-events-none absolute inset-y-0 z-10 w-[var(--fade)] ${side === 'left' ? 'left-0' : 'right-0'}`}>
-                <div
-                  className="absolute inset-0 backdrop-blur-[10px]"
-                  style={{
-                    WebkitMaskImage: `linear-gradient(${dir}, #000 0%, rgba(0,0,0,0.6) 50%, transparent 100%)`,
-                    maskImage: `linear-gradient(${dir}, #000 0%, rgba(0,0,0,0.6) 50%, transparent 100%)`,
-                  }}
-                />
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    backgroundImage: `linear-gradient(${dir}, #f7f6f4 0%, rgba(247,246,244,0.75) 35%, rgba(247,246,244,0) 100%)`,
-                  }}
-                />
-              </div>
-            )
-          })}
         </div>
       </div>
     </section>
