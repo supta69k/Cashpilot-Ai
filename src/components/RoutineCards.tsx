@@ -9,7 +9,7 @@ import miniDash from '../assets/icons/sec4/mini-dash.svg'
 import invoiceBg from '../assets/icons/sec4/invoice-bg.svg'
 import whiteLinesH from '../assets/icons/sec4/card3-line.svg'
 import whiteLinesV from '../assets/icons/sec4/card3-grid.svg'
-import dotMatrix from '../assets/icons/sec4/dot-matrix.png'
+import dotMatrix from '../assets/icons/sec4/dot-matrix.webp'
 import plus from '../assets/icons/sec4/plus.svg'
 import dotsH from '../assets/icons/sec4/dots-h.svg'
 import dotsH2 from '../assets/icons/sec4/dots-h-2.svg'
@@ -36,7 +36,7 @@ function CardShell({ top, z, background, borderColor, children }: CardShellProps
     <div
       data-card
       style={{ top, zIndex: z }}
-      className="absolute left-0 h-[540px] w-[1240px] overflow-hidden rounded-[10px]"
+      className="absolute left-0 h-[540px] w-[1240px] overflow-hidden rounded-[10px] will-change-transform [contain:layout_paint]"
     >
       <div className="absolute inset-0" style={{ backgroundColor: background }} />
       {children}
@@ -51,7 +51,7 @@ function CardShell({ top, z, background, borderColor, children }: CardShellProps
 function StepCircle({ left, number }: { left: number; number: string }) {
   return (
     <div className="absolute top-[42px] size-[127px]" style={{ left }}>
-      <img src={circle} alt="" className="absolute inset-0 size-full" />
+      <img src={circle} alt="" decoding="async" className="absolute inset-0 size-full" />
       <span className="absolute inset-0 flex items-center justify-center font-recoleta text-[60.96px] font-medium leading-none text-[#191c19]">
         {number}
       </span>
@@ -171,7 +171,7 @@ export function RoutineCardOne() {
               Your cash, at a glance
             </p>
             <span className="flex items-center gap-[8.322px] rounded-[16.643px] bg-[#f5f6f4] px-[8.322px] py-[6.241px]">
-              <img src={arrowDrop} alt="" className="size-[16.643px]" />
+              <img src={arrowDrop} alt="" decoding="async" className="size-[16.643px]" />
               <span className="font-satoshi text-[12.483px] leading-[14.563px] tracking-[-0.4161px] text-[#98a2b3]">
                 16%
               </span>
@@ -198,7 +198,7 @@ export function RoutineCardOne() {
               <span className="w-[24px] font-satoshi text-[12.483px] leading-[14.563px] tracking-[-0.4161px] text-[#98a2b3]">
                 {row.label}
               </span>
-              <img src={gridline} alt="" className="h-[1.04px] w-[275.658px]" />
+              <img src={gridline} alt="" decoding="async" className="h-[1.04px] w-[275.658px]" />
             </div>
           ))}
 
@@ -232,11 +232,13 @@ export function RoutineCardOne() {
           <img
             src={graphH}
             alt=""
+            decoding="async"
             className="absolute left-[5.72px] top-0 h-[80.105px] w-[183.098px]"
           />
           <img
             src={graphLine}
             alt=""
+            decoding="async"
             className="absolute left-[5.72px] top-[5.15px] h-[52.069px] w-[180.237px]"
           />
           <div className="absolute left-0 top-[88.12px] flex gap-[20.026px] text-center font-satoshi text-[8.011px] leading-[1.7] tracking-[-0.3204px] text-[#4c4a54]">
@@ -255,6 +257,7 @@ export function RoutineCardOne() {
           <img
             src={miniDash}
             alt=""
+            decoding="async"
             className="absolute left-1/2 top-[28.24px] h-[21.638px] w-[231.175px] -translate-x-1/2"
           />
         </div>
@@ -263,6 +266,7 @@ export function RoutineCardOne() {
           <img
             src={invoiceBg}
             alt=""
+            decoding="async"
             className="absolute left-[0.03px] top-[0.78px] h-[177.302px] w-[158.998px]"
           />
 
@@ -358,12 +362,14 @@ export function RoutineCardTwo() {
       <img
         src={whiteLinesH}
         alt=""
+        decoding="async"
         className="absolute left-[697px] top-[146.1px] h-[358.182px] w-[432.586px] opacity-[0.14]"
       />
       <div className="absolute left-[732.27px] top-[111.64px] flex h-[422.204px] w-[363.373px] items-center justify-center">
         <img
           src={whiteLinesV}
           alt=""
+          decoding="async"
           className="h-[363.373px] w-[422.204px] rotate-90 opacity-[0.14]"
         />
       </div>
@@ -417,6 +423,7 @@ export function RoutineCardTwo() {
                 key={`${dot.left}-${dot.top}`}
                 src={chartDot}
                 alt=""
+                decoding="async"
                 className="absolute size-[6.759px]"
                 style={{ left: dot.left, top: dot.top }}
               />
@@ -435,6 +442,7 @@ export function RoutineCardTwo() {
             <img
               src={projected}
               alt=""
+              decoding="async"
               className="absolute left-[13.52px] top-[20.28px] h-[54.075px] w-[260.235px]"
             />
           </div>
@@ -473,6 +481,10 @@ export function RoutineCardThree() {
       <img
         src={dotMatrix}
         alt=""
+        width={756}
+        height={469}
+        loading="lazy"
+        decoding="async"
         className="pointer-events-none absolute left-[664px] top-[43px] h-[469px] w-[756px] object-cover"
       />
 
@@ -531,8 +543,8 @@ export function RoutineCardThree() {
                       </p>
                     </div>
                     <div className="flex items-center gap-[4.696px]">
-                      <img src={thing.plusIcon} alt="" className="size-[9.391px]" />
-                      <img src={thing.dotsIcon} alt="" className="size-[9.391px]" />
+                      <img src={thing.plusIcon} alt="" decoding="async" className="size-[9.391px]" />
+                      <img src={thing.dotsIcon} alt="" decoding="async" className="size-[9.391px]" />
                     </div>
                   </div>
                 </div>
@@ -550,6 +562,9 @@ export function RoutineCardThree() {
               <img
                 src={objectLogo}
                 alt=""
+                width={61}
+                height={40}
+                decoding="async"
                 className="absolute left-[0.86%] top-[1.16%] h-[96.57%] w-[99.08%] max-w-none"
               />
             </div>
@@ -563,17 +578,18 @@ export function RoutineCardThree() {
       <img
         src={vector160}
         alt=""
+        decoding="async"
         className="absolute left-[842px] top-[93.5px] h-[40.5px] w-px"
       />
-      <img src={dot5} alt="" className="absolute left-[840px] top-[89.08px] size-[5px]" />
-      <img src={dot5} alt="" className="absolute left-[840px] top-[130.92px] size-[5px]" />
+      <img src={dot5} alt="" decoding="async" className="absolute left-[840px] top-[89.08px] size-[5px]" />
+      <img src={dot5} alt="" decoding="async" className="absolute left-[840px] top-[130.92px] size-[5px]" />
 
       {/* Telegram chip — Figma 47:17864 */}
       <div className="absolute left-[1059px] top-[348px] h-[71px] w-[141px] overflow-hidden rounded-[7px] bg-[#53a348]">
         <div className="absolute left-1/2 top-[15px] h-[52px] w-[133px] -translate-x-1/2 overflow-hidden rounded-[6px] bg-white">
           <div className="absolute left-1/2 top-1/2 flex h-[42px] w-[122px] -translate-x-1/2 -translate-y-1/2 items-center justify-center overflow-hidden rounded-[10px] bg-[#333]">
             <div className="flex items-center gap-[6px]">
-              <img src={telegramIcon} alt="" className="size-[22px]" />
+              <img src={telegramIcon} alt="" decoding="async" className="size-[22px]" />
               <p className="whitespace-nowrap font-satoshi text-[18px] leading-[1.31] tracking-[-0.18px] text-white">
                 Telegram
               </p>
@@ -581,11 +597,12 @@ export function RoutineCardThree() {
           </div>
         </div>
       </div>
-      <img src={dot5} alt="" className="absolute left-[1057.5px] top-[380.5px] size-[5px]" />
+      <img src={dot5} alt="" decoding="async" className="absolute left-[1057.5px] top-[380.5px] size-[5px]" />
 
       <img
         src={illustration}
         alt=""
+        decoding="async"
         className="absolute left-[961.5px] top-[266px] h-[117.5px] w-[97.5px]"
       />
     </CardShell>

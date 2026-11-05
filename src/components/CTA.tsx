@@ -39,6 +39,7 @@ export default function CTA() {
 
   return (
     <section
+      id="get-started"
       ref={sectionRef}
       className="relative mt-[110px] w-full bg-white pb-[60px] pt-[40px] sm:mt-[170px] sm:pb-[81px] sm:pt-[80px] lg:mt-[238px]"
     >
@@ -54,7 +55,7 @@ export default function CTA() {
               the card on every device (desktop resolves to the same 565×565). The SVG is
               square with preserveAspectRatio="none", so a non-square box would flatten it. */}
           <div className="pointer-events-none absolute bottom-[-57.22%] left-[calc(50%+0.5px)] top-[56.51%] aspect-square -translate-x-1/2">
-            <img src={vector} alt="" className="absolute inset-0 size-full max-w-none" />
+            <img src={vector} alt="" loading="lazy" decoding="async" className="absolute inset-0 size-full max-w-none" />
           </div>
 
           {/* Content block — Figma 14:8401 at center. */}
@@ -92,6 +93,7 @@ export default function CTA() {
                 <img
                   src={elements}
                   alt=""
+                  decoding="async"
                   className="h-[16px] w-[10px] -scale-x-100 -rotate-90 transition group-hover:translate-x-[1px]"
                 />
               </span>

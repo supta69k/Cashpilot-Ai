@@ -22,7 +22,7 @@ export default function Footer() {
             <div className="w-full max-w-[301.48px]">
               <div className="flex items-center gap-[9px]">
                 <div className="flex size-[32px] items-center justify-center overflow-hidden rounded-[9px] bg-[#cbfc58] px-[4px] py-[8px]">
-                  <img src={object1} alt="" className="h-[96.57%] w-[99.08%]" />
+                  <img src={object1} alt="" width={61} height={40} loading="lazy" decoding="async" className="h-[96.57%] w-[99.08%]" />
                 </div>
                 <span className="font-satoshi text-[23px] font-medium leading-none text-[#191c19]">
                   CashPilot AI
@@ -82,7 +82,7 @@ export default function Footer() {
 
           {/* Divider line — Figma 14:8418. */}
           <div className="mt-[44px] h-px w-full bg-[#d2d5d8] lg:mt-[67px]">
-            <img src={line} alt="" className="h-px w-full" />
+            <img src={line} alt="" loading="lazy" decoding="async" className="h-px w-full" />
           </div>
 
           {/* Bottom bar — Figma 14:8419. 65px gap above the 212px hill strip on desktop = 277px total. */}
@@ -92,13 +92,13 @@ export default function Footer() {
             {/* Social icons — Figma 14:8421. */}
             <div className="flex items-center gap-[15px]">
               <a href="#" aria-label="Facebook">
-                <img src={fb} alt="" className="size-[40px]" />
+                <img src={fb} alt="" width={40} height={40} loading="lazy" decoding="async" className="size-[40px]" />
               </a>
               <a href="#" aria-label="Twitter">
-                <img src={twitter} alt="" className="size-[40px]" />
+                <img src={twitter} alt="" width={40} height={40} loading="lazy" decoding="async" className="size-[40px]" />
               </a>
               <a href="#" aria-label="Instagram">
-                <img src={instagram} alt="" className="size-[40px]" />
+                <img src={instagram} alt="" width={40} height={40} loading="lazy" decoding="async" className="size-[40px]" />
               </a>
             </div>
           </div>
@@ -116,6 +116,8 @@ export default function Footer() {
             <img
               src={footerImg}
               alt=""
+              width={2000}
+              height={932}
               loading="lazy"
               decoding="async"
               className="size-full max-w-none"

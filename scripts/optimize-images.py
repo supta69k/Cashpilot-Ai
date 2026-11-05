@@ -32,7 +32,10 @@ for src, dst, width, quality in JOBS:
     if im.width > width:
         im = im.resize((width, round(im.height * width / im.width)), Image.LANCZOS)
     dst_path.parent.mkdir(parents=True, exist_ok=True)
-    im.save(dst_path, "WEBP", quality=quality, method=6)
+    if dst.endswith("dot-matrix.webp"):
+        im.save(dst_path, "WEBP", lossless=True, method=6)
+    else:
+        im.save(dst_path, "WEBP", quality=quality, method=6)
     before = src_path.stat().st_size / 1024
     after = dst_path.stat().st_size / 1024
     print(f"{dst}: {before:7.1f} KB -> {after:6.1f} KB ({im.width}x{im.height})")

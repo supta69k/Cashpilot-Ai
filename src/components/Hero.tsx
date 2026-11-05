@@ -4,12 +4,13 @@ import chevronRight from '../assets/icons/chevron-right.svg'
 import objectLogo from '../assets/icons/object.webp'
 import Dashboard from './Dashboard'
 import FitScale from './FitScale'
+import { getLenis, scrollToSection } from '../lib/scroll'
 
 const NAV_LINKS = [
-  { label: 'Product', left: 0 },
-  { label: 'How it works', left: 83 },
-  { label: 'AI copilot', left: 199 },
-  { label: 'FAQ', left: 291 },
+  { label: 'Product', left: 0, href: '#product' },
+  { label: 'How it works', left: 83, href: '#how-it-works' },
+  { label: 'AI copilot', left: 199, href: '#ai-copilot' },
+  { label: 'FAQ', left: 291, href: '#faq' },
 ]
 
 export default function Hero() {
@@ -23,6 +24,8 @@ export default function Hero() {
   const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
     // gsap.context scoped to the section; autoAlpha handles visibility too.
     // set() first, then animate to visible — revert() on unmount restores cleanly.
     const ctx = gsap.context(() => {
@@ -33,7 +36,7 @@ export default function Hero() {
       gsap.set(taglineRef.current, { autoAlpha: 0, y: 16 })
       gsap.set(dashboardRef.current, { autoAlpha: 0, y: 48 })
 
-      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
+      const tl = gsap.timeline({ defaults: { ease: 'power3.out', force3D: true } })
 
       tl.to(navRef.current, { autoAlpha: 1, y: 0, duration: 0.8, ease: 'power2.out' }, 0)
         .to(headlineRef.current, { autoAlpha: 1, y: 0, duration: 1 }, 0.15)
@@ -50,6 +53,29 @@ export default function Hero() {
     return () => ctx.revert()
   }, [])
 
+  useEffect(() => {
+    const lenis = getLenis()
+    if (!menuOpen) {
+      lenis?.start()
+      return
+    }
+
+    lenis?.stop()
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMenuOpen(false)
+    }
+    const onResize = () => {
+      if (window.innerWidth >= 1024) setMenuOpen(false)
+    }
+    window.addEventListener('keydown', onKeyDown)
+    window.addEventListener('resize', onResize, { passive: true })
+    return () => {
+      lenis?.start()
+      window.removeEventListener('keydown', onKeyDown)
+      window.removeEventListener('resize', onResize)
+    }
+  }, [menuOpen])
+
   return (
     <section ref={sectionRef} className="relative w-full bg-[#f7f6f4]">
       {/* Inset rounded image card — Figma: 1413×964 at page (14,13), so 14px left / 13px right+top.
@@ -61,9 +87,11 @@ export default function Hero() {
           src="/hero-bg.webp"
           srcSet="/hero-bg-960.webp 960w, /hero-bg.webp 1536w"
           sizes="100vw"
+          width={1536}
+          height={1024}
           alt=""
           fetchPriority="high"
-          decoding="async"
+          decoding="sync"
           className="absolute inset-0 h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-black/15" />
@@ -71,12 +99,13 @@ export default function Hero() {
         {/* Navigation — Figma node 14:7977, 96px tall, content inset 106/107px on 1413px card. */}
         <nav
           ref={navRef}
+          aria-label="Primary"
           className="absolute inset-x-0 top-0 z-30"
         >
           <div className="relative mx-auto flex h-[68px] w-full max-w-[1413px] items-center justify-between px-4 sm:h-[76px] sm:px-6 lg:h-[96px] lg:px-10 xl:pl-[106px] xl:pr-[107px]">
             <a href="#" className="flex items-center gap-[9px]">
               <span className="flex h-8 w-8 items-center justify-center rounded-[9px] bg-[#cbfc58] px-1 py-2">
-                <img src={objectLogo} alt="" className="h-full w-full object-contain" />
+                <img src={objectLogo} alt="" width={61} height={40} decoding="async" className="h-full w-full object-contain" />
               </span>
               <span className="whitespace-nowrap font-satoshi text-[19px] leading-none text-white sm:text-[20px] lg:text-[23px]">
                 CashPilot AI
@@ -88,7 +117,7 @@ export default function Hero() {
               {NAV_LINKS.map((link) => (
                 <a
                   key={link.label}
-                  href="#"
+                  href={link.href}
                   className="absolute top-0 whitespace-nowrap transition-opacity hover:opacity-70"
                   style={{ left: `${link.left}px` }}
                 >
@@ -100,32 +129,41 @@ export default function Hero() {
             {/* Desktop actions — exact Figma placement. */}
             <div className="relative hidden h-[52px] w-[212px] lg:block">
               <a
-                href="#"
+                href="#get-started"
                 className="absolute left-0 top-[15.5px] font-satoshi text-[14px] font-medium leading-[1.5] text-[#191c19] transition-opacity hover:opacity-70"
               >
                 Log in
               </a>
-              <button className="absolute left-[63px] top-0 flex h-[52px] cursor-pointer items-center justify-center gap-[10px] rounded-[10px] bg-[#cbfc58] px-5 py-[14px] transition-colors hover:bg-[#b8e845]">
+              <button
+                type="button"
+                onClick={() => scrollToSection('#get-started')}
+                className="absolute left-[63px] top-0 flex h-[52px] cursor-pointer items-center justify-center gap-[10px] rounded-[10px] bg-[#cbfc58] px-5 py-[14px] transition-colors hover:bg-[#b8e845]"
+              >
                 <span className="font-satoshi text-[16px] leading-[1.7] text-black">Get started</span>
-                <img src={chevronRight} alt="" className="h-4 w-4" />
+                <img src={chevronRight} alt="" decoding="async" className="h-4 w-4" />
               </button>
             </div>
 
             {/* Compact actions — below lg. */}
             <div className="flex items-center gap-2 lg:hidden">
-              <a href="#" className="hidden px-2 font-satoshi text-[14px] font-medium text-white sm:block">
+              <a href="#get-started" className="hidden px-2 font-satoshi text-[14px] font-medium text-white sm:block">
                 Log in
               </a>
-              <button className="hidden h-[42px] cursor-pointer items-center gap-2 rounded-[10px] bg-[#cbfc58] px-4 sm:flex">
+              <button
+                type="button"
+                onClick={() => scrollToSection('#get-started')}
+                className="hidden h-[42px] cursor-pointer items-center gap-2 rounded-[10px] bg-[#cbfc58] px-4 sm:flex"
+              >
                 <span className="whitespace-nowrap font-satoshi text-[14px] leading-[1.7] text-black">
                   Get started
                 </span>
-                <img src={chevronRight} alt="" className="h-3.5 w-3.5" />
+                <img src={chevronRight} alt="" decoding="async" className="h-3.5 w-3.5" />
               </button>
               <button
                 type="button"
-                aria-label="Open menu"
+                aria-label={menuOpen ? 'Close menu' : 'Open menu'}
                 aria-expanded={menuOpen}
+                aria-controls="mobile-nav-menu"
                 onClick={() => setMenuOpen((open) => !open)}
                 className="flex size-[42px] cursor-pointer flex-col items-center justify-center gap-[5px] rounded-[10px] border border-white/25 bg-white/10 backdrop-blur-sm"
               >
@@ -143,20 +181,29 @@ export default function Hero() {
 
         {/* Mobile menu panel */}
         {menuOpen && (
-          <div className="absolute inset-x-4 top-[76px] z-40 rounded-2xl bg-[#f7f6f4] p-2 shadow-2xl sm:top-[84px] lg:hidden">
+          <div
+            id="mobile-nav-menu"
+            className="absolute inset-x-4 top-[76px] z-40 rounded-2xl bg-[#f7f6f4] p-2 shadow-2xl sm:top-[84px] lg:hidden"
+          >
             {NAV_LINKS.map((link) => (
               <a
                 key={link.label}
-                href="#"
-                onClick={() => setMenuOpen(false)}
+                href={link.href}
+                onClick={() => {
+                  getLenis()?.start()
+                  setMenuOpen(false)
+                }}
                 className="block rounded-xl px-4 py-3 font-satoshi text-[16px] text-[#191c19] hover:bg-black/5"
               >
                 {link.label}
               </a>
             ))}
             <a
-              href="#"
-              onClick={() => setMenuOpen(false)}
+              href="#get-started"
+              onClick={() => {
+                getLenis()?.start()
+                setMenuOpen(false)
+              }}
               className="block rounded-xl px-4 py-3 font-satoshi text-[16px] font-medium text-[#191c19] hover:bg-black/5"
             >
               Log in
@@ -187,15 +234,23 @@ export default function Hero() {
             className="mt-[20px] flex w-full flex-col gap-3 sm:mt-[24px] sm:w-auto sm:flex-row sm:gap-[18.5px]"
           >
             {/* Primary CTA */}
-            <button className="flex h-[52px] w-full cursor-pointer items-center justify-center gap-[10px] rounded-[10px] bg-[#cbfc58] px-5 transition-colors hover:bg-[#b8e845] sm:w-auto">
+            <button
+              type="button"
+              onClick={() => scrollToSection('#dashboard-preview', -40)}
+              className="flex h-[52px] w-full cursor-pointer items-center justify-center gap-[10px] rounded-[10px] bg-[#cbfc58] px-5 transition-colors hover:bg-[#b8e845] sm:w-auto"
+            >
               <span className="font-satoshi text-[16px] leading-[1.7] text-black">
                 Explore the dashboard
               </span>
-              <img src={chevronRight} alt="" className="h-4 w-4" />
+              <img src={chevronRight} alt="" decoding="async" className="h-4 w-4" />
             </button>
 
             {/* Secondary CTA */}
-            <button className="flex h-[50px] w-full cursor-pointer items-center justify-center rounded-[10px] border border-[rgba(255,255,255,0.46)] bg-[rgba(255,255,255,0.22)] transition-colors hover:bg-[rgba(255,255,255,0.3)] sm:w-[190px]">
+            <button
+              type="button"
+              onClick={() => scrollToSection('#how-it-works')}
+              className="flex h-[50px] w-full cursor-pointer items-center justify-center rounded-[10px] border border-[rgba(255,255,255,0.46)] bg-[rgba(255,255,255,0.22)] transition-colors hover:bg-[rgba(255,255,255,0.3)] sm:w-[190px]"
+            >
               <span className="font-satoshi text-[16px] leading-[1.7] text-[#fcfdfb]">
                 See how it works
               </span>
@@ -212,7 +267,10 @@ export default function Hero() {
 
         {/* Dashboard mockup — responsive native preview on mobile/tablet (in flow, bleeding
             smoothly off the bottom edge), exact 1200px Figma layout absolutely placed on desktop */}
-        <div className="relative z-20 -mb-[52px] mt-8 sm:-mb-[68px] sm:mt-10 lg:absolute lg:inset-x-0 lg:top-[628px] lg:mb-0 lg:mt-0">
+        <div
+          id="dashboard-preview"
+          className="relative z-20 -mb-[52px] mt-8 sm:-mb-[68px] sm:mt-10 lg:absolute lg:inset-x-0 lg:top-[628px] lg:mb-0 lg:mt-0"
+        >
           <div className="mx-auto w-full max-w-[calc(100%-16px)] min-[390px]:max-w-[calc(100%-24px)] sm:max-w-[calc(100%-40px)] lg:max-w-[min(1200px,calc(100%-48px))]">
             <div ref={dashboardRef}>
               {/* Desktop view (>= 1024px): Uses FitScale for exact 1200px Figma layout */}

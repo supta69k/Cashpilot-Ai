@@ -80,7 +80,7 @@ export default function FAQ() {
   }
 
   return (
-    <section ref={sectionRef} className="relative w-full bg-[#f7f6f4]">
+    <section id="faq" ref={sectionRef} className="relative w-full bg-[#f7f6f4]">
       <div className="mx-auto w-[921px] max-w-[calc(100%-32px)] pt-[120px] sm:pt-[180px] lg:max-w-[calc(100%-64px)] lg:pt-[357px]">
         {/* Heading — Figma 14:8336 at (141,0), 639×138. */}
         <div
@@ -115,12 +115,16 @@ export default function FAQ() {
               >
                 {/* Question row — Figma 14:8341 / 14:8354 etc, 110.52px tall. */}
                 <button
+                  type="button"
+                  aria-expanded={isOpen}
+                  aria-controls={`faq-panel-${idx}`}
                   onClick={() => toggle(idx)}
                   className="flex w-full items-center gap-[16px] px-4 py-[16px] text-left sm:gap-[24px] sm:px-7 sm:py-[20px] lg:gap-[49.12px] lg:px-[36.84px] lg:py-[24.56px]"
                 >
                   <img
                     src={item.icon}
                     alt=""
+                    decoding="async"
                     className="size-[40px] shrink-0 sm:size-[50px] lg:size-[61.4px]"
                   />
                   <span className="flex-1 font-satoshi text-[clamp(17px,3.4vw,32px)] font-medium leading-[1.4] tracking-[-0.614px] text-[#0a0915] lg:leading-[1.8]">
@@ -129,12 +133,14 @@ export default function FAQ() {
                   <img
                     src={elements}
                     alt=""
+                    decoding="async"
                     className={`size-[20px] shrink-0 transition-transform duration-200 ${isOpen ? '' : 'rotate-180'}`}
                   />
                 </button>
 
                 {/* Answer panel — only visible when expanded. Figma 14:8352, 194.945px. */}
                 <div
+                  id={`faq-panel-${idx}`}
                   className={`overflow-hidden transition-[max-height,opacity] duration-300 ease-out ${
                     isOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
                   }`}

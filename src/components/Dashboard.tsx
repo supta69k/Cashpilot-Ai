@@ -37,11 +37,11 @@ export default function Dashboard({ isMobile = false }: { isMobile?: boolean }) 
       <div className="dashboard-mockup relative w-full rounded-xl sm:rounded-2xl border border-[#e8eae3] bg-white shadow-[0px_20px_60px_0px_rgba(36,50,33,0.08)] overflow-hidden">
         {/* Browser chrome */}
         <div className="flex items-center h-8 sm:h-9 bg-[#f3f5ef] px-3 sm:px-4 relative">
-          <img src={windowControls} alt="" className="h-[6px] sm:h-[7px] w-[26px] sm:w-[31px]" />
+          <img src={windowControls} alt="" decoding="async" className="h-[6px] sm:h-[7px] w-[26px] sm:w-[31px]" />
           <span className="absolute left-1/2 -translate-x-1/2 font-satoshi text-[9px] sm:text-[10px] text-[#73776f] leading-[1.5] whitespace-nowrap">
             app.cashpilot.ai / overview
           </span>
-          <img src={lockKeyhole} alt="" className="absolute right-3 h-2.5 w-2.5 sm:h-3 sm:w-3" />
+          <img src={lockKeyhole} alt="" decoding="async" className="absolute right-3 h-2.5 w-2.5 sm:h-3 sm:w-3" />
         </div>
 
         {/* Dashboard content */}
@@ -49,14 +49,14 @@ export default function Dashboard({ isMobile = false }: { isMobile?: boolean }) 
           {/* Top brand & assistant row */}
           <div className="flex items-center justify-between pb-2 mb-2 border-b border-[#e8eae3]/60">
             <div className="flex items-center gap-1.5 min-w-0">
-              <img src={objectLogo} alt="CashPilot" className="h-[12px] w-[18px] shrink-0 object-contain" />
+              <img src={objectLogo} alt="CashPilot" width={61} height={40} decoding="async" className="h-[12px] w-[18px] shrink-0 object-contain" />
               <span className="font-satoshi font-medium text-[12px] sm:text-[14px] text-[#191c19] truncate">
                 CashPilot AI
               </span>
               <span className="text-[10px] text-[#73776f] hidden sm:inline">· Rahman Trading</span>
             </div>
             <div className="flex shrink-0 items-center gap-1 h-[26px] sm:h-[30px] rounded-[6px] bg-[#cbfc58] px-2 sm:px-2.5">
-              <img src={sparkles1} alt="" className="size-3 sm:size-3.5" />
+              <img src={sparkles1} alt="" decoding="async" className="size-3 sm:size-3.5" />
               <span className="font-satoshi font-medium text-[10px] sm:text-[11px] text-[#191c19] whitespace-nowrap">
                 Ask CashPilot
               </span>
@@ -127,7 +127,7 @@ export default function Dashboard({ isMobile = false }: { isMobile?: boolean }) 
                 <span>0</span>
               </div>
               <div className="flex-1 min-w-0">
-                <img src={plotArea} alt="" className="w-full h-[76px] sm:h-[104px] object-fill" />
+                <img src={plotArea} alt="" decoding="async" className="w-full h-[76px] sm:h-[104px] object-fill" />
               </div>
             </div>
           </div>
@@ -140,11 +140,11 @@ export default function Dashboard({ isMobile = false }: { isMobile?: boolean }) 
     <div className="dashboard-mockup relative w-full rounded-2xl border border-[#e8eae3] bg-white shadow-[0px_20px_60px_0px_rgba(36,50,33,0.08)] overflow-hidden">
       {/* Browser chrome */}
       <div className="flex items-center h-9 bg-[#f3f5ef] px-4 relative">
-        <img src={windowControls} alt="" className="h-[7px] w-[31px]" />
+        <img src={windowControls} alt="" decoding="async" className="h-[7px] w-[31px]" />
         <span className="absolute left-1/2 -translate-x-1/2 font-satoshi text-[10px] text-[#73776f] leading-[1.5]">
           app.cashpilot.ai / overview
         </span>
-        <img src={lockKeyhole} alt="" className="absolute right-3 h-3 w-3" />
+        <img src={lockKeyhole} alt="" decoding="async" className="absolute right-3 h-3 w-3" />
       </div>
 
       {/* Application */}
@@ -153,7 +153,7 @@ export default function Dashboard({ isMobile = false }: { isMobile?: boolean }) 
         <div className="w-[180px] shrink-0 border-r border-[#e8eae3] py-[18px] pl-[18px] pr-[18px] flex flex-col">
           {/* App identity */}
           <div className="flex items-center gap-[7px]">
-            <img src={objectLogo} alt="CashPilot" className="h-[12.46px] w-[19px] object-contain" />
+            <img src={objectLogo} alt="CashPilot" width={61} height={40} decoding="async" className="h-[12.46px] w-[19px] object-contain" />
             <span className="font-satoshi font-medium text-[15px] text-[#191c19] leading-[1.5] whitespace-nowrap">
               CashPilot AI
             </span>
@@ -168,7 +168,7 @@ export default function Dashboard({ isMobile = false }: { isMobile?: boolean }) 
                   item.active ? 'bg-[#cbfc58]' : 'bg-white'
                 }`}
               >
-                <img src={item.icon} alt="" className="h-[14px] w-[14px]" />
+                <img src={item.icon} alt="" decoding="async" className="h-[14px] w-[14px]" />
                 <span className="font-satoshi text-[11px] text-[#191c19] leading-[1.5]">
                   {item.label}
                 </span>
@@ -206,7 +206,7 @@ export default function Dashboard({ isMobile = false }: { isMobile?: boolean }) 
               </p>
             </div>
             <div className="flex items-center gap-[7px] h-[37px] rounded-[7px] bg-[#cbfc58] px-[10px] mt-[9px]">
-              <img src={sparkles1} alt="" className="h-[14px] w-[14px]" />
+              <img src={sparkles1} alt="" decoding="async" className="h-[14px] w-[14px]" />
               <span className="font-satoshi font-medium text-[11px] text-[#191c19] leading-[1.5]">
                 Ask CashPilot
               </span>
@@ -273,7 +273,7 @@ export default function Dashboard({ isMobile = false }: { isMobile?: boolean }) 
                   </div>
                   {/* Plot area */}
                   <div className="flex-1 relative">
-                    <img src={plotArea} alt="" className="w-full h-[158px]" />
+                    <img src={plotArea} alt="" decoding="async" className="w-full h-[158px]" />
                   </div>
                 </div>
 

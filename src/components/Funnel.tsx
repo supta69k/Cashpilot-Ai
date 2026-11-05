@@ -162,7 +162,7 @@ export default function Funnel() {
   }, [])
 
   return (
-    <section ref={sectionRef} className="relative w-full bg-[#f7f6f4]">
+    <section id="ai-copilot" ref={sectionRef} className="relative w-full bg-[#f7f6f4]">
       <div className="mx-auto w-full max-w-[1440px]">
         <div
           data-panel
@@ -194,7 +194,7 @@ export default function Funnel() {
                 data-title-icon
                 className="flex size-[38px] shrink-0 items-center justify-center rounded-[8px] border border-[rgba(51,51,51,0.2)] bg-[#f9faf7] sm:size-[40px]"
               >
-                <img src={cashIcon} alt="" className="size-[19px] sm:size-[20px]" />
+                <img src={cashIcon} alt="" decoding="async" className="size-[19px] sm:size-[20px]" />
               </div>
               <p className="font-recoleta text-[18px] leading-[1.4] tracking-[-0.8px] text-[#333] sm:text-[22px]">
                 Cash-flow Funnel Analytics
@@ -213,7 +213,15 @@ export default function Funnel() {
                 </div>
               ))}
             </div>
-            <img data-mobile-band src={funnelBand} alt="" className="mt-6 w-full" />
+            <img
+              data-mobile-band
+              src={funnelBand}
+              alt=""
+              width={1064}
+              height={288}
+              decoding="async"
+              className="mt-6 h-auto w-full will-change-[clip-path]"
+            />
           </div>
 
           {/* Desktop Chart panel (>= 1024px) — Figma 14:8203 at card (48,265), 1128×524.
@@ -227,7 +235,7 @@ export default function Funnel() {
                     data-title-icon
                     className="absolute left-0 top-[2px] flex size-[40px] items-center justify-center rounded-[8px] border border-[rgba(51,51,51,0.2)] bg-[#f9faf7]"
                   >
-                    <img src={cashIcon} alt="" className="size-[20px]" />
+                    <img src={cashIcon} alt="" decoding="async" className="size-[20px]" />
                   </div>
                   <p className="absolute left-[60px] top-[2px] whitespace-nowrap font-recoleta text-[24px] leading-[1.5] tracking-[-1px] text-[#333]">
                     Cash-flow Funnel Analytics
@@ -265,14 +273,14 @@ export default function Funnel() {
                 ))}
 
                 {/* Funnel band — Figma 14:8235 at panel (32,217), 1064×288. */}
-                <div data-band className="absolute left-[32px] top-[217px] h-[288px] w-[1064px]">
-                  <img src={funnelBand} alt="" className="size-full" />
+                <div data-band className="absolute left-[32px] top-[217px] h-[288px] w-[1064px] will-change-[clip-path]">
+                  <img src={funnelBand} alt="" width={1064} height={288} decoding="async" className="size-full" />
                 </div>
 
                 {/* Wipe edge that travels with the band reveal. */}
                 <div
                   data-scan
-                  className="pointer-events-none absolute left-[32px] top-[217px] h-[288px] w-[2px] bg-gradient-to-b from-[#1e322d]/0 via-[#60d184]/80 to-[#dbfe7a]/0"
+                  className="pointer-events-none absolute left-[32px] top-[217px] h-[288px] w-[2px] bg-gradient-to-b from-[#1e322d]/0 via-[#60d184]/80 to-[#dbfe7a]/0 will-change-transform"
                 />
 
                 {BANDS.map((band) => (

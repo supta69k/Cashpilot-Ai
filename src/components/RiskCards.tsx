@@ -9,10 +9,10 @@ import card4 from '../assets/icons/sec7/card4.webp'
 gsap.registerPlugin(ScrollTrigger)
 
 const CARDS = [
-  { src: card1, label: 'Cash Shortfall', w: 335 },
-  { src: card2, label: 'Unusual Expense', w: 401 },
-  { src: card3, label: 'Upcoming Payment', w: 432 },
-  { src: card4, label: 'Overdue Invoices', w: 401 },
+  { src: card1, label: 'Cash Shortfall', w: 335, imgW: 1035, imgH: 690 },
+  { src: card2, label: 'Unusual Expense', w: 401, imgW: 1000, imgH: 666 },
+  { src: card3, label: 'Upcoming Payment', w: 432, imgW: 1036, imgH: 659 },
+  { src: card4, label: 'Overdue Invoices', w: 401, imgW: 1035, imgH: 690 },
 ]
 
 /** "Know What Needs Your Attention" — Figma 57:18099 at page (0,6680), 2010×756. */
@@ -44,6 +44,7 @@ export default function RiskCards() {
           return -Math.max(0, track.scrollWidth - wrap.clientWidth)
         },
         ease: 'none',
+        force3D: true,
         scrollTrigger: {
           trigger: '[data-track-wrap]',
           start: () => (window.innerHeight < 680 ? 'top 8%' : 'top 12%'),
@@ -96,17 +97,19 @@ export default function RiskCards() {
         <div className="relative mx-auto h-full w-[calc(100%_-_2*var(--inset))] max-w-[1440px] overflow-hidden rounded-[4px]">
           <div
             ref={trackRef}
-            className="absolute left-0 top-0 flex h-full w-max items-center gap-4 sm:gap-6 lg:gap-[30px]"
+            className="absolute left-0 top-0 flex h-full w-max items-center gap-4 will-change-transform sm:gap-6 lg:gap-[30px]"
           >
             {CARDS.map((card) => (
               <div
                 key={card.label}
                 data-risk-card
-                className="relative h-[360px] w-[min(280px,calc(100vw_-_2*var(--inset)_-_24px))] shrink-0 overflow-hidden rounded-[3px] sm:h-[430px] sm:w-[340px] lg:h-[518px] lg:w-[480px]"
+                className="relative h-[360px] w-[min(280px,calc(100vw_-_2*var(--inset)_-_24px))] shrink-0 overflow-hidden rounded-[3px] [contain:layout_paint] sm:h-[430px] sm:w-[340px] lg:h-[518px] lg:w-[480px]"
               >
                 <img
                   src={card.src}
                   alt=""
+                  width={card.imgW}
+                  height={card.imgH}
                   loading="lazy"
                   decoding="async"
                   className="absolute inset-0 size-full object-cover"

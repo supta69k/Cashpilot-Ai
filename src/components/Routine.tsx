@@ -72,7 +72,7 @@ export default function Routine() {
         if (cards.length !== 3) return
 
         const tl = gsap.timeline({
-          defaults: { ease: 'power2.inOut' },
+          defaults: { ease: 'power2.inOut', force3D: true },
           scrollTrigger: {
             trigger: '[data-mobile-deck]',
             start: () => (window.innerHeight < 680 ? 'top 8%' : 'top 16%'),
@@ -102,7 +102,7 @@ export default function Routine() {
         if (cards.length !== 3) return
 
         const tl = gsap.timeline({
-          defaults: { ease: 'power2.inOut' },
+          defaults: { ease: 'power2.inOut', force3D: true },
           scrollTrigger: {
             trigger: '[data-deck-pin]',
             start: () => (window.innerHeight < 720 ? 'top 5%' : 'top 12%'),
@@ -131,7 +131,7 @@ export default function Routine() {
   }, [])
 
   return (
-    <section ref={sectionRef} className="relative w-full bg-[#f7f6f4]">
+    <section id="how-it-works" ref={sectionRef} className="relative w-full bg-[#f7f6f4]">
       <div className="mx-auto w-full max-w-[1440px]">
         {/* Heading — Figma 14:7993 at frame (349,0), 548×111. */}
         <div
@@ -162,7 +162,7 @@ export default function Routine() {
               <div
                 key={step.number}
                 data-step
-                className="absolute left-0 h-[396px] w-full overflow-hidden rounded-[16px] border-4 px-5 py-6 sm:h-[348px] sm:px-8 sm:py-7"
+                className="absolute left-0 h-[396px] w-full overflow-hidden rounded-[16px] border-4 px-5 py-6 will-change-transform [contain:layout_paint] sm:h-[348px] sm:px-8 sm:py-7"
                 style={{
                   backgroundColor: step.background,
                   borderColor: step.border,

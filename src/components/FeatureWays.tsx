@@ -122,7 +122,7 @@ export default function FeatureWays() {
   }, [])
 
   return (
-    <section ref={sectionRef} className="relative w-full bg-[#f7f6f4]">
+    <section id="product" ref={sectionRef} className="relative w-full bg-[#f7f6f4]">
       <div className="mx-auto w-full max-w-[1440px]">
         {/* Heading block — Figma 14:7990 at page (460,1088), 520×156. */}
         <div
@@ -213,7 +213,7 @@ function GlimpseCard() {
           <div key={bar.month} className="flex w-[34px] flex-col items-center">
             <div
               data-bar
-              className="w-full bg-[#333]"
+              className="w-full bg-[#333] will-change-transform"
               style={{ height: `${bar.height}px` }}
             />
             <span
@@ -252,7 +252,7 @@ function ChatCard() {
                 CashPilot Ai
               </span>
               <span className="flex h-[28px] items-center gap-[8px] rounded-[3px] bg-[#f5f6f4] px-[8px] py-[6px]">
-                <img src={arrowDropDown} alt="" className="h-4 w-4" />
+                <img src={arrowDropDown} alt="" decoding="async" className="h-4 w-4" />
                 <span className="font-satoshi text-[12px] leading-[14px] tracking-[-0.4px] text-[#98a2b3]">
                   Choose
                 </span>
@@ -263,13 +263,13 @@ function ChatCard() {
               <span className="font-satoshi text-[12px] leading-[1.7] text-[#02140d]">Media</span>
               <span className="flex items-center gap-[8px]">
                 <span className="flex h-[28px] items-center gap-[8px] rounded-[3px] bg-[#f5f6f4] px-[8px] py-[6px]">
-                  <img src={addPhotoIcon} alt="" className="h-4 w-4" />
+                  <img src={addPhotoIcon} alt="" decoding="async" className="h-4 w-4" />
                   <span className="font-satoshi text-[12px] leading-[14px] tracking-[-0.4px] text-[#98a2b3]">
                     Add photo
                   </span>
                 </span>
                 <span className="flex h-[28px] items-center gap-[8px] rounded-[3px] bg-[#f5f6f4] px-[8px] py-[6px]">
-                  <img src={addVideoIcon} alt="" className="h-4 w-4" />
+                  <img src={addVideoIcon} alt="" decoding="async" className="h-4 w-4" />
                   <span className="font-satoshi text-[12px] leading-[14px] tracking-[-0.4px] text-[#98a2b3]">
                     Add video
                   </span>
@@ -285,7 +285,10 @@ function ChatCard() {
           </div>
         </div>
 
-        <button className="flex h-[52px] w-[300px] cursor-pointer items-center justify-center rounded-[4px] bg-[#333] px-[24px] py-[12px] transition-colors hover:bg-[#222]">
+        <button
+          type="button"
+          className="flex h-[52px] w-[300px] cursor-pointer items-center justify-center rounded-[4px] bg-[#333] px-[24px] py-[12px] transition-colors hover:bg-[#222]"
+        >
           <span className="font-satoshi text-[16px] leading-[1.7] text-white">Ask Our Chatbot</span>
         </button>
       </div>
@@ -308,27 +311,29 @@ function PhoneCard() {
       </div>
 
       {/* iPhone mock — Figma 14:8049 at card (59,181), 262.66×537 (clipped at card bottom). */}
-      <div data-phone className="absolute left-[59px] top-[181px] h-[537px] w-[262.663px]">
+      <div data-phone className="absolute left-[59px] top-[181px] h-[537px] w-[262.663px] will-change-transform">
         <div className="absolute left-[11.573px] top-[10.416px] h-[270.815px] w-[239.567px] overflow-hidden rounded-t-[30.091px] bg-[#f9faf7]">
           {/* Status bar + header row */}
           <img
             src={statusLeft}
             alt=""
+            decoding="async"
             className="absolute left-[23.146px] top-[13.888px] h-[9.44px] w-[23.203px]"
           />
           <img
             src={statusRight}
             alt=""
+            decoding="async"
             className="absolute left-[163.24px] top-[14.016px] h-[9.184px] w-[53.996px]"
           />
 
           <div className="absolute left-[12.73px] top-[37.03px] size-[20.832px] rotate-90">
-            <img src={arrowDown} alt="" className="size-full" />
+            <img src={arrowDown} alt="" decoding="async" className="size-full" />
           </div>
 
           <div className="absolute left-[43.978px] top-[35.877px] flex items-center gap-[6.944px]">
             <span className="flex h-[19.509px] w-[19.67px] items-center justify-center rounded-[5.532px] bg-[#cbfc58] px-[2.459px] py-[4.918px]">
-              <img src={objectLogo} alt="" className="w-full" />
+              <img src={objectLogo} alt="" width={61} height={40} decoding="async" className="w-full" />
             </span>
             <span className="whitespace-nowrap font-recoleta text-[13.888px] leading-[1.7] text-black">
               Cashpilot Assistant
@@ -379,6 +384,9 @@ function PhoneCard() {
         <img
           src={iphoneFrame}
           alt=""
+          width={540}
+          height={1104}
+          decoding="async"
           className="pointer-events-none absolute left-0 top-[2px] h-[537px] w-[262.663px] object-cover"
         />
       </div>

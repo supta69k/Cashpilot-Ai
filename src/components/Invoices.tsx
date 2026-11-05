@@ -45,6 +45,7 @@ export default function Invoices() {
             {
               x: 0,
               ease: 'power2.out',
+              force3D: true,
               scrollTrigger: { trigger: row, start: 'top bottom', end: 'top 40%', scrub: 0.7 },
             },
           )
@@ -54,6 +55,7 @@ export default function Invoices() {
             {
               x: 0,
               ease: 'power2.out',
+              force3D: true,
               scrollTrigger: { trigger: row, start: 'top bottom', end: 'top 40%', scrub: 0.7 },
             },
           )
@@ -100,15 +102,17 @@ export default function Invoices() {
       gsap.utils.toArray<HTMLElement>('[data-parallax]').forEach((img) => {
         gsap.fromTo(
           img,
-          { y: -img.offsetHeight * 0.05 },
+          { y: () => -img.offsetHeight * 0.05 },
           {
             y: 0,
             ease: 'none',
+            force3D: true,
             scrollTrigger: {
               trigger: '[data-bento]',
               start: 'top bottom',
               end: 'bottom top',
               scrub: true,
+              invalidateOnRefresh: true,
             },
           },
         )
@@ -177,15 +181,17 @@ export default function Invoices() {
           {/* Tile 1 — invoices over photography. Figma 14:8247. */}
           <div
             data-tile
-            className="relative aspect-[593/509] w-full overflow-hidden rounded-[3px] sm:aspect-[16/11] lg:aspect-auto lg:h-[509px] lg:min-w-0 lg:flex-[593] xl:w-[593px] xl:flex-none"
+            className="relative aspect-[593/509] w-full overflow-hidden rounded-[3px] will-change-transform [contain:layout_paint] sm:aspect-[16/11] lg:aspect-auto lg:h-[509px] lg:min-w-0 lg:flex-[593] xl:w-[593px] xl:flex-none"
           >
             <div
               data-parallax
-              className="absolute inset-x-0 -top-[6%] h-[112%] w-full overflow-hidden rounded-[3px] xl:left-0 xl:right-auto xl:top-0 xl:h-[635.476px] xl:w-[1399.627px]"
+              className="absolute inset-x-0 -top-[6%] h-[112%] w-full overflow-hidden rounded-[3px] will-change-transform xl:left-0 xl:right-auto xl:top-0 xl:h-[635.476px] xl:w-[1399.627px]"
             >
               <img
                 src={invoiceBg}
                 alt=""
+                width={1600}
+                height={752}
                 loading="lazy"
                 decoding="async"
                 className="size-full object-cover xl:absolute xl:left-[-40.83%] xl:top-[-9.36%] xl:h-[103.49%] xl:w-[99.99%] xl:max-w-none xl:object-fill"
@@ -201,7 +207,7 @@ export default function Invoices() {
               <div className="absolute left-[26px] top-[22px] flex items-center gap-[88px]">
                 <p className="w-[87px] font-recoleta text-[24px] leading-[1.5] text-[#191c19]">Invoices</p>
                 <div className="relative h-[38px] w-[251px] overflow-clip rounded-[7px] border border-[#e8eae3]">
-                  <img src={searchIcon} alt="" className="absolute left-[9px] top-[9px] size-[15px]" />
+                  <img src={searchIcon} alt="" decoding="async" className="absolute left-[9px] top-[9px] size-[15px]" />
                   <p className="absolute left-[32px] top-[9px] whitespace-nowrap font-satoshi text-[12px] leading-[1.5] text-[#73776f]">
                     Search invoice or customer
                   </p>
@@ -279,7 +285,7 @@ export default function Invoices() {
           {/* Tile 2 — copy. Figma 14:8294. */}
           <div
             data-tile
-            className="relative w-full overflow-hidden rounded-[3px] bg-white px-6 py-10 sm:px-10 lg:flex lg:h-[509px] lg:min-w-0 lg:flex-[592] lg:items-center lg:px-9 lg:py-0 xl:block xl:w-[592px] xl:flex-none xl:px-0"
+            className="relative w-full overflow-hidden rounded-[3px] bg-white px-6 py-10 will-change-transform [contain:layout_paint] sm:px-10 lg:flex lg:h-[509px] lg:min-w-0 lg:flex-[592] lg:items-center lg:px-9 lg:py-0 xl:block xl:w-[592px] xl:flex-none xl:px-0"
           >
             <div className="flex flex-col gap-6 lg:gap-[32px] xl:absolute xl:left-[49px] xl:top-1/2 xl:w-[494px] xl:-translate-y-1/2 xl:gap-[38px]">
               <h3 className="font-recoleta text-[clamp(26px,3vw,36px)] leading-[1.16] text-[#191c19]">
@@ -302,7 +308,7 @@ export default function Invoices() {
           <div
             data-quote
             data-tile
-            className="relative w-full overflow-hidden rounded-[3px] bg-[#333] px-6 py-12 text-center sm:px-10 lg:flex lg:h-[509px] lg:min-w-0 lg:flex-[506] lg:flex-col lg:items-center lg:justify-between lg:px-8 lg:pb-[34px] lg:pt-[110px] xl:block xl:w-[506px] xl:flex-none xl:p-0"
+            className="relative w-full overflow-hidden rounded-[3px] bg-[#333] px-6 py-12 text-center will-change-transform [contain:layout_paint] sm:px-10 lg:flex lg:h-[509px] lg:min-w-0 lg:flex-[506] lg:flex-col lg:items-center lg:justify-between lg:px-8 lg:pb-[34px] lg:pt-[110px] xl:block xl:w-[506px] xl:flex-none xl:p-0"
           >
             <p className="mx-auto w-full max-w-[378px] font-recoleta text-[clamp(26px,3.2vw,45px)] leading-[1.47] tracking-[-0.2px] text-white xl:absolute xl:left-1/2 xl:top-[123px] xl:w-[378px] xl:-translate-x-1/2">
               {QUOTE.split(' ').map((word, i, all) => (
@@ -326,16 +332,18 @@ export default function Invoices() {
           <div
             data-donut-tile
             data-tile
-            className="relative w-full overflow-hidden rounded-[3px] py-10 sm:py-12 lg:flex lg:h-[509px] lg:min-w-0 lg:flex-[679] lg:items-center lg:justify-center lg:p-6 xl:block xl:w-[679px] xl:flex-none xl:p-0"
+            className="relative w-full overflow-hidden rounded-[3px] py-10 will-change-transform [contain:layout_paint] sm:py-12 lg:flex lg:h-[509px] lg:min-w-0 lg:flex-[679] lg:items-center lg:justify-center lg:p-6 xl:block xl:w-[679px] xl:flex-none xl:p-0"
           >
             <div className="absolute inset-x-0 -top-[6%] h-[112%] w-full xl:left-[-28px] xl:right-auto xl:top-0 xl:h-[586px] xl:w-[899px]">
               <img
                 data-parallax
                 src={donutBg}
                 alt=""
+                width={1200}
+                height={800}
                 loading="lazy"
                 decoding="async"
-                className="size-full rounded-[3px] object-cover"
+                className="size-full rounded-[3px] object-cover will-change-transform"
               />
             </div>
 
@@ -348,6 +356,7 @@ export default function Invoices() {
                   data-donut-ring
                   src={donutRing}
                   alt=""
+                  decoding="async"
                   className="absolute left-[55px] top-[78px] size-[242px]"
                   aria-hidden
                 />
@@ -364,7 +373,7 @@ export default function Invoices() {
                       data-badge
                       className="flex items-center rounded-full border border-[#ff9f9d] bg-white px-[12px] py-[3px]"
                     >
-                      <img src={arrowUp} alt="" className="size-[18px] -scale-y-100" />
+                      <img src={arrowUp} alt="" decoding="async" className="size-[18px] -scale-y-100" />
                       <span className="font-satoshi text-[18px] leading-[1.8] tracking-[-0.4px] text-[#fb3b52]">
                         21%
                       </span>

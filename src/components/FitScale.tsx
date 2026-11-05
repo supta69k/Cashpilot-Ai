@@ -1,4 +1,5 @@
 import { useLayoutEffect, useRef, useState, type ReactNode } from 'react'
+import { requestScrollRefresh } from '../lib/scroll'
 
 type FitScaleProps = {
   /** Design width of the mockup. */
@@ -31,8 +32,14 @@ export default function FitScale({
     if (!el) return
 
     const update = () => {
-      const next = Math.min(1, Math.max(el.clientWidth / width, minScale))
-      setScale((prev) => (Math.abs(prev - next) < 0.001 ? prev : next))
+      const clientWidth = el.clientWidth
+      if (clientWidth <= 0) return
+      const next = Math.min(1, Math.max(clientWidth / width, minScale))
+      setScale((prev) => {
+        if (Math.abs(prev - next) < 0.001) return prev
+        requestScrollRefresh()
+        return next
+      })
     }
 
     update()

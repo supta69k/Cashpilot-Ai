@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { requestScrollRefresh } from './lib/scroll'
 import Hero from './components/Hero'
 import FeatureWays from './components/FeatureWays'
 import Statement from './components/Statement'
@@ -13,12 +13,12 @@ import Footer from './components/Footer'
 
 function App() {
   useEffect(() => {
-    const refresh = () => ScrollTrigger.refresh()
-    window.addEventListener('load', refresh)
-    document.fonts?.addEventListener('loadingdone', refresh)
+    window.addEventListener('load', requestScrollRefresh, { passive: true })
+    document.fonts?.addEventListener('loadingdone', requestScrollRefresh)
+    document.fonts?.ready.then(requestScrollRefresh)
     return () => {
-      window.removeEventListener('load', refresh)
-      document.fonts?.removeEventListener('loadingdone', refresh)
+      window.removeEventListener('load', requestScrollRefresh)
+      document.fonts?.removeEventListener('loadingdone', requestScrollRefresh)
     }
   }, [])
 
